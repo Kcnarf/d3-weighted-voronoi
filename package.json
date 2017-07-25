@@ -1,0 +1,35 @@
+{
+  "name": "d3-weighted-voronoi",
+  "version": "0.0.1",
+  "description": "D3 plugin which computes a Weighted Voronoi tesselation",
+  "keywords": [
+    "d3",
+    "d3-module",
+    "voronoi",
+    "weighted voronoi",
+    "tesselation"
+  ],
+  "license": "WTFPL",
+  "author": " Kcnarf <fl.franck.lebeau@gmail.com>",
+  "main": "build/d3-weighted-voronoi.js",
+  "jsnext:main": "index",
+  "homepage": "https://github.com/Kcnarf/d3-weighted-voronoi#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kcnarf/d3-weighted-voronoi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kcnarf/d3-weighted-voronoi/issues"
+  },
+  "scripts": {
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/powerDiagram.js -- index.js",
+    "test": "tape 'test/**/*-test.js'",
+    "prepublish": "yarn run test && uglifyjs build/d3-weighted-voronoi.js -c -m -o build/d3-weighted-voronoi.min.js",
+    "postpublish": "zip -j build/d3-weighted-voronoi.zip -- LICENSE README.md build/d3-weighted-voronoi.js build/d3-weighted-voronoi.min.js"
+  },
+  "devDependencies": {
+    "rollup": "0.27",
+    "tape": "4",
+    "uglify-js": "2"
+  }
+}

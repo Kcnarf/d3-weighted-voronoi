@@ -1,4 +1,8 @@
 // powerDiagram.js - computePowerDiagramIntegrated() and subroutines
+import {ConvexHull, Vertex, epsilon} from './convexHull';
+import {polygonClip} from './d3-polygon-clip';
+
+export {Vertex, epsilon};
 
 // IN: HEdge edge
 function getFacesOfDestVertex(edge) {
@@ -25,13 +29,14 @@ function getFacesOfDestVertex(edge) {
 // IN: Omega = convex bounding polygon
 // IN: S = unique set of sites with weights
 // OUT: Set of lines making up the voronoi power diagram
-function computePowerDiagramIntegrated(sites, boundingSites, clippingPolygon) {
-  ConvexHull.clear();
-  ConvexHull.init(boundingSites, sites);
+export function computePowerDiagramIntegrated (sites, boundingSites, clippingPolygon) {
+  var convexHull = new ConvexHull();
+  convexHull.clear();
+  convexHull.init(boundingSites, sites);
 
-  var facets = ConvexHull.compute(sites);
+  var facets = convexHull.compute(sites);
   var polygons = [];
-  var vertexCount = ConvexHull.points.length; 
+  var vertexCount = convexHull.points.length; 
   var verticesVisited = [];
   var facetCount = facets.length;
 
@@ -80,7 +85,7 @@ function computePowerDiagramIntegrated(sites, boundingSites, clippingPolygon) {
           
           site.nonClippedPolygon = protopoly.reverse();
           if (!site.isDummy && d3.polygonLength(site.nonClippedPolygon) > 0) {
-            var clippedPoly = d3.polygonClip(clippingPolygon, site.nonClippedPolygon);
+            var clippedPoly = polygonClip(clippingPolygon, site.nonClippedPolygon);
             site.polygon = clippedPoly;
             clippedPoly.site = site;
             if (clippedPoly.length > 0) {
