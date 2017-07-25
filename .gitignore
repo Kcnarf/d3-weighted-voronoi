@@ -1,6 +1,5 @@
 .DS_Store
 build/*.zip
-build/powerDiagram.js
 build/convexHull.js
 build/d3-polygon-clip.js
 node_modules
