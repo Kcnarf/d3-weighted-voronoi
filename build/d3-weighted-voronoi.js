@@ -798,7 +798,7 @@
     return polygons;
   }
 
-  exports.computePowerDiagramIntegrated = computePowerDiagramIntegrated;
+  exports.weightedVoronoi = computePowerDiagramIntegrated;
   exports.Vertex = Vertex;
 
   Object.defineProperty(exports, '__esModule', { value: true });

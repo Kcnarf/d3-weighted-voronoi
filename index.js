@@ -1,1 +1,1 @@
-export {computePowerDiagramIntegrated, Vertex} from "./src/powerDiagram";
+export {computePowerDiagramIntegrated as weightedVoronoi, Vertex} from "./src/powerDiagram";
