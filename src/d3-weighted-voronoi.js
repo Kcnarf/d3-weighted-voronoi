@@ -1,5 +1,5 @@
 import {epsilon} from './epsilon';
-import {Vertex} from './convexHull';
+import {Vertex} from './vertex';
 import {computePowerDiagramIntegrated} from './powerDiagram';
 
 export function weightedVoronoi () {

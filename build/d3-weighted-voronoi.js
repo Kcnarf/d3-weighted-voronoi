@@ -10,40 +10,6 @@
     return n >= -epsilon && n <= epsilon;
   }
 
-  // Plane3D and Point2D
-
-  // IN: Face face
-  function Plane3D (face) {
-    var p1 = face.verts[0];
-    var p2 = face.verts[1];
-    var p3 = face.verts[2];
-    this.a = p1.y * (p2.z-p3.z) + p2.y * (p3.z-p1.z) + p3.y * (p1.z-p2.z);
-    this.b = p1.z * (p2.x-p3.x) + p2.z * (p3.x-p1.x) + p3.z * (p1.x-p2.x);
-    this.c = p1.x * (p2.y-p3.y) + p2.x * (p3.y-p1.y) + p3.x * (p1.y-p2.y);
-    this.d = -1 * (p1.x * (p2.y*p3.z - p3.y*p2.z) + p2.x * (p3.y*p1.z - p1.y*p3.z) + p3.x * (p1.y*p2.z - p2.y*p1.z));	
-  }
-
-  // OUT: point2D
-  Plane3D.prototype.getDualPointMappedToPlane = function() {
-    var nplane = this.getNormZPlane();
-    var dualPoint = new Point2D(nplane[0]/2, nplane[1]/2);
-    return dualPoint;
-  }
-
-  Plane3D.prototype.getNormZPlane = function() {
-    return [
-      -1 * (this.a / this.c),
-      -1 * (this.b / this.c),
-      -1 * (this.d / this.c)
-    ];
-  }
-
-  // IN: doubles x and y
-  function Point2D (x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
   // ConflictList and ConflictListNode
 
   function ConflictListNode (face, vert) {
@@ -151,12 +117,6 @@
     return list;
   }
 
-  // IN: vectors or vertices
-  // OUT: dot product
-  var dot = function(v1, v2) {
-    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
-  }
-
   // IN: coordinates x, y, z
   function Vertex (x, y, z, weight, orig, isDummy) {
     this.x = x;
@@ -205,6 +165,96 @@
 
   Vertex.prototype.equals = function(v) {
     return (this.x === v.x && this.y === v.y && this.z === v.z);
+  }
+
+  // Plane3D and Point2D
+
+  // IN: Face face
+  function Plane3D (face) {
+    var p1 = face.verts[0];
+    var p2 = face.verts[1];
+    var p3 = face.verts[2];
+    this.a = p1.y * (p2.z-p3.z) + p2.y * (p3.z-p1.z) + p3.y * (p1.z-p2.z);
+    this.b = p1.z * (p2.x-p3.x) + p2.z * (p3.x-p1.x) + p3.z * (p1.x-p2.x);
+    this.c = p1.x * (p2.y-p3.y) + p2.x * (p3.y-p1.y) + p3.x * (p1.y-p2.y);
+    this.d = -1 * (p1.x * (p2.y*p3.z - p3.y*p2.z) + p2.x * (p3.y*p1.z - p1.y*p3.z) + p3.x * (p1.y*p2.z - p2.y*p1.z));	
+  }
+
+  // OUT: point2D
+  Plane3D.prototype.getDualPointMappedToPlane = function() {
+    var nplane = this.getNormZPlane();
+    var dualPoint = new Point2D(nplane[0]/2, nplane[1]/2);
+    return dualPoint;
+  }
+
+  Plane3D.prototype.getNormZPlane = function() {
+    return [
+      -1 * (this.a / this.c),
+      -1 * (this.b / this.c),
+      -1 * (this.d / this.c)
+    ];
+  }
+
+  // IN: doubles x and y
+  function Point2D (x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  // IN: coordinates x, y, z
+  function Vertex$1 (x, y, z, weight, orig, isDummy) {
+    this.x = x;
+    this.y = y;
+    this.weight = epsilon;
+    this.index = 0;
+    this.conflicts = new ConflictList(false);
+    this.neighbours = null;  // Potential trouble
+    this.nonClippedPolygon = null;
+    this.polygon = null;
+    this.originalObject = null;
+    this.isDummy = false;
+
+    if (orig !== undefined) {
+      this.originalObject = orig;
+    }
+    if (isDummy != undefined) {
+      this.isDummy = isDummy;
+    }
+    if (weight != null) {
+      this.weight = weight;
+    }
+    if (z != null) {
+      this.z = z;
+    } else {
+      this.z = this.projectZ(this.x, this.y, this.weight);
+    }
+  }
+
+  Vertex$1.prototype.setWeight = function(weight) {
+    this.weight = weight;
+    this.z = this.projectZ(this.x, this.y, this.weight);
+  }
+
+  Vertex$1.prototype.projectZ = function(x, y, weight) {
+    return ((x*x) + (y*y) - weight);
+  }
+
+  Vertex$1.prototype.subtract = function(v) {
+    return new Vertex$1(v.x - this.x, v.y - this.y, v.z - this.z);
+  }
+
+  Vertex$1.prototype.crossproduct = function(v) {
+    return new Vertex$1((this.y * v.z) - (this.z * v.y), (this.z * v.x) - (this.x * v.z), (this.x * v.y) - (this.y * v.x));
+  }
+
+  Vertex$1.prototype.equals = function(v) {
+    return (this.x === v.x && this.y === v.y && this.z === v.z);
+  }
+
+  // IN: vectors or vertices
+  // OUT: dot product
+  var dot = function(v1, v2) {
+    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
   }
 
   // IN: coordinates x, y, z
@@ -379,7 +429,7 @@
   ConvexHull.prototype.init = function(boundingSites, sites) {
     this.points = [];
     for (var i = 0; i < sites.length; i++) {
-      this.points[i] = new Vertex(sites[i].x, sites[i].y, sites[i].z, null, sites[i], false);
+      this.points[i] = new Vertex$1(sites[i].x, sites[i].y, sites[i].z, null, sites[i], false);
     }
     this.points = this.points.concat(boundingSites);
   }
