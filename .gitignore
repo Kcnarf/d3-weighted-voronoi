@@ -1,7 +1,14 @@
 .DS_Store
 build/*.zip
-build/powerDiagram.js
+build/epsilon.js
+build/plane3D.js
+build/conflictList.js
+build/vertex.js
+build/vector.js
+build/hEdge.js
+build/face.js
 build/convexHull.js
+build/powerDiagram.js
 build/d3-polygon-clip.js
 node_modules
 npm-debug.log
