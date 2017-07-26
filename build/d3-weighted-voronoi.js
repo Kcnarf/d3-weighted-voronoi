@@ -44,11 +44,7 @@
     this.y = y;
   }
 
-  // IN: vectors or vertices
-  // OUT: dot product
-  var dot = function(v1, v2) {
-    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
-  }
+  // ConflictList and ConflictListNode
 
   function ConflictListNode (face, vert) {
     this.face = face;
@@ -153,6 +149,12 @@
       curr = curr.nextv;
     }
     return list;
+  }
+
+  // IN: vectors or vertices
+  // OUT: dot product
+  var dot = function(v1, v2) {
+    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
   }
 
   // IN: coordinates x, y, z

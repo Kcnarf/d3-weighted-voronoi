@@ -22,7 +22,7 @@
     "url": "https://github.com/Kcnarf/d3-weighted-voronoi/issues"
   },
   "scripts": {
-    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/d3-weighted-voronoi.js -- index.js && rollup -f umd -n vanilla --o build/epsilon.js -- ./src/epsilon.js && rollup -f umd -n vanilla --o build/plane3D.js -- ./src/plane3D.js && rollup -f umd -n vanilla --o build/convexHull.js -- ./src/convexHull.js && rollup -f umd -n vanilla --o build/powerDiagram.js -- ./src/powerDiagram.js",
+    "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/d3-weighted-voronoi.js -- index.js && rollup -f umd -n vanilla --o build/epsilon.js -- ./src/epsilon.js && rollup -f umd -n vanilla --o build/plane3D.js -- ./src/plane3D.js && rollup -f umd -n vanilla --o build/conflictList.js -- ./src/conflictList.js && rollup -f umd -n vanilla --o build/convexHull.js -- ./src/convexHull.js && rollup -f umd -n vanilla --o build/powerDiagram.js -- ./src/powerDiagram.js",
     "test": "tape 'test/**/*-test.js'",
     "prepublish": "yarn run test && uglifyjs build/d3-weighted-voronoi.js -c -m -o build/d3-weighted-voronoi.min.js",
     "postpublish": "zip -j build/d3-weighted-voronoi.zip -- LICENSE README.md build/d3-weighted-voronoi.js build/d3-weighted-voronoi.min.js"
