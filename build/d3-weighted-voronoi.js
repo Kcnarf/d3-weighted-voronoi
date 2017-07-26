@@ -251,11 +251,7 @@
     return (this.x === v.x && this.y === v.y && this.z === v.z);
   }
 
-  // IN: vectors or vertices
-  // OUT: dot product
-  var dot = function(v1, v2) {
-    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
-  }
+  // Vector
 
   // IN: coordinates x, y, z
   function Vector (x, y, z) {
@@ -278,6 +274,12 @@
       this.y /= len;
       this.z /= len;
     }
+  }
+
+  // IN: vectors or vertices
+  // OUT: dot product
+  var dot = function(v1, v2) {
+    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
   }
 
   // IN: Vertices a, b, c
