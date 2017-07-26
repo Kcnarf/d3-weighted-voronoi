@@ -1,5 +1,5 @@
 // Vertex
-import {epsilon} from './epsilon';
+import {epsilon} from './utils';
 import {ConflictList} from './conflictList';
 
 // IN: coordinates x, y, z

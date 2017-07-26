@@ -1,5 +1,5 @@
 // powerDiagram.js - computePowerDiagramIntegrated() and subroutines
-import {epsilon} from './epsilon';
+import {epsilon} from './utils';
 import {Vertex} from './vertex';
 import {ConvexHull} from './convexHull';
 import {polygonClip} from './d3-polygon-clip';

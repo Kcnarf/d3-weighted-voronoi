@@ -1,4 +1,4 @@
-import {epsilon} from './epsilon';
+import {epsilon} from './utils';
 import {Vertex} from './vertex';
 import {computePowerDiagramIntegrated} from './powerDiagram';
 

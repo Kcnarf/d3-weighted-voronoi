@@ -1,8 +1,8 @@
 // convexHull.js
-import {epsilon, epsilonesque} from './epsilon';
+import {epsilon, epsilonesque, dot, linearDependent} from './utils';
 import {ConflictList, ConflictListNode} from './conflictList';
 import {Vertex} from './Vertex';
-import {Face, dot} from './face';
+import {Face} from './face';
 
 export function ConvexHull () {
   this.points = [];
@@ -50,7 +50,7 @@ ConvexHull.prototype.prep = function() {
   v2 = v3 = null;
 
   for (var i = 2; i < this.points.length; i++) {
-    if (!(this.linearDependent(v0, this.points[i]) && this.linearDependent(v1, this.points[i]))) {
+    if (!(linearDependent(v0, this.points[i]) && linearDependent(v1, this.points[i]))) {
       v2 = this.points[i];
       v2.index = 2;
       this.points[2].index = i;
@@ -236,38 +236,6 @@ ConvexHull.prototype.compute = function() {
     }
   }
   return this.facets;
-}
-
-// IN: two vertex objects, p1 and p2
-// OUT: true if they are linearly dependent, false otherwise
-ConvexHull.prototype.linearDependent = function(p1, p2) {
-  if (p1.x == 0 && p2.x == 0) {
-    if (p1.y == 0 && p2.y == 0) {
-      if (p1.z == 0 && p2.z == 0) {
-        return true;
-      }
-      if (p1.z == 0 || p2.z == 0) {
-        return false;
-      }
-      return true;
-    }
-    if (p1.y == 0 || p2.y == 0) {
-      return false;
-    }
-    if (epsilonesque(p1.z/p1.y - p2.z/p2.y)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  if (p1.x == 0 || p2.x == 0) {
-    return false;
-  }
-  if (epsilonesque(p1.y/p1.x - p2.y/p2.x) && epsilonesque(p1.z/p1.x - p2.y/p2.x)) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 ConvexHull.prototype.clear = function() {

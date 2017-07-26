@@ -1,6 +1,6 @@
 .DS_Store
 build/*.zip
-build/epsilon.js
+build/utils.js
 build/plane3D.js
 build/conflictList.js
 build/vertex.js

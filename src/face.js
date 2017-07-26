@@ -1,6 +1,6 @@
 // Face
 
-import {epsilon} from './epsilon';
+import {epsilon, dot} from './utils';
 import {Plane3D} from './plane3D';
 import {ConflictList} from './conflictList';
 import {Vector} from './vector';
@@ -105,10 +105,4 @@ Face.prototype.getHorizon = function() {
 
 Face.prototype.removeConflict = function() {
   this.conflicts.removeAll();
-}
-
-// IN: vectors or vertices
-// OUT: dot product
-export function dot (v1, v2) {
-  return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
 }
