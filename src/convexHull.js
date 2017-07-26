@@ -1,5 +1,5 @@
 // convexHull.js
-import {epsilon, epsilonesque, dot, linearDependent} from './utils';
+import {epsilon, dot, linearDependent} from './utils';
 import {ConflictList, ConflictListNode} from './conflictList';
 import {Vertex} from './Vertex';
 import {Face} from './face';
