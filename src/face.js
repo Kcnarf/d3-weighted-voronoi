@@ -1,0 +1,114 @@
+// Face
+
+import {epsilon} from './epsilon';
+import {Plane3D} from './plane3D';
+import {ConflictList} from './conflictList';
+import {Vector} from './vector';
+import {HEdge} from './hEdge';
+
+// IN: Vertices a, b, c
+export function Face (a, b, c, orient) {
+  this.conflicts = new ConflictList(true);
+  this.verts = [a, b, c];
+  this.marked = false;
+  var t = (a.subtract(b)).crossproduct(b.subtract(c));
+
+  this.normal = new Vector(-t.x, -t.y, -t.z);
+  this.normal.normalize();
+  this.createEdges();
+  this.dualPoint = null;
+
+  if (orient != undefined) {
+    this.orient(orient);
+  }
+}
+
+// OUT: Point2D
+Face.prototype.getDualPoint = function() {
+  if (this.dualPoint == null) {
+    var plane3d = new Plane3D(this);
+    this.dualPoint = plane3d.getDualPointMappedToPlane();
+  }
+  return this.dualPoint;
+}
+
+Face.prototype.isVisibleFromBelow = function() {
+  return (this.normal.z < -1.4259414393190911E-9);
+}
+
+Face.prototype.createEdges = function() {
+  this.edges = [];
+  this.edges[0] = new HEdge(this.verts[0], this.verts[1], this);
+  this.edges[1] = new HEdge(this.verts[1], this.verts[2], this);
+  this.edges[2] = new HEdge(this.verts[2], this.verts[0], this);
+  this.edges[0].next = this.edges[1];
+  this.edges[0].prev = this.edges[2];
+  this.edges[1].next = this.edges[2];
+  this.edges[1].prev = this.edges[0];
+  this.edges[2].next = this.edges[0];
+  this.edges[2].prev = this.edges[1];
+}
+
+// IN: vertex orient
+Face.prototype.orient = function(orient) {
+  if (!(dot(this.normal,orient) < dot(this.normal, this.verts[0]))){
+    var temp = this.verts[1];
+    this.verts[1] = this.verts[2];
+    this.verts[2] = temp;
+    this.normal.negate();
+    this.createEdges();
+  }
+}
+
+// IN: two vertices v0 and v1
+Face.prototype.getEdge = function(v0, v1) {
+  for (var i = 0; i < 3; i++) {
+    if (this.edges[i].isEqual(v0, v1)) {
+      return this.edges[i];
+    }
+  }
+  return null;
+}
+
+// IN: Face face, vertices v0 and v1
+Face.prototype.link = function(face, v0, v1) {
+  if (face instanceof Face) {
+    var twin = face.getEdge(v0, v1);
+    if (twin === null) {
+
+      console.log("ERROR: twin is null");
+    }
+    var edge = this.getEdge(v0, v1);
+    twin.twin = edge;
+    edge.twin = twin;
+  } else {
+    var e = face;
+    var edge = this.getEdge(e.orig, e.dest);
+    e.twin = edge;
+    edge.twin = e;
+  }
+}
+
+// IN: vertex v
+Face.prototype.conflict = function(v) {
+  return (dot(this.normal, v) > dot(this.normal, this.verts[0]) + epsilon);
+}
+
+Face.prototype.getHorizon = function() {
+  for (var i = 0; i < 3; i++) {
+    if (this.edges[i].twin !== null && this.edges[i].twin.isHorizon()) {
+      return this.edges[i];
+    }
+  }
+  return null;
+}
+
+Face.prototype.removeConflict = function() {
+  this.conflicts.removeAll();
+}
+
+// IN: vectors or vertices
+// OUT: dot product
+export function dot (v1, v2) {
+  return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
+}

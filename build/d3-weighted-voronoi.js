@@ -167,40 +167,6 @@
     return (this.x === v.x && this.y === v.y && this.z === v.z);
   }
 
-  // Plane3D and Point2D
-
-  // IN: Face face
-  function Plane3D (face) {
-    var p1 = face.verts[0];
-    var p2 = face.verts[1];
-    var p3 = face.verts[2];
-    this.a = p1.y * (p2.z-p3.z) + p2.y * (p3.z-p1.z) + p3.y * (p1.z-p2.z);
-    this.b = p1.z * (p2.x-p3.x) + p2.z * (p3.x-p1.x) + p3.z * (p1.x-p2.x);
-    this.c = p1.x * (p2.y-p3.y) + p2.x * (p3.y-p1.y) + p3.x * (p1.y-p2.y);
-    this.d = -1 * (p1.x * (p2.y*p3.z - p3.y*p2.z) + p2.x * (p3.y*p1.z - p1.y*p3.z) + p3.x * (p1.y*p2.z - p2.y*p1.z));	
-  }
-
-  // OUT: point2D
-  Plane3D.prototype.getDualPointMappedToPlane = function() {
-    var nplane = this.getNormZPlane();
-    var dualPoint = new Point2D(nplane[0]/2, nplane[1]/2);
-    return dualPoint;
-  }
-
-  Plane3D.prototype.getNormZPlane = function() {
-    return [
-      -1 * (this.a / this.c),
-      -1 * (this.b / this.c),
-      -1 * (this.d / this.c)
-    ];
-  }
-
-  // IN: doubles x and y
-  function Point2D (x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
   // IN: coordinates x, y, z
   function Vertex$1 (x, y, z, weight, orig, isDummy) {
     this.x = x;
@@ -249,6 +215,40 @@
 
   Vertex$1.prototype.equals = function(v) {
     return (this.x === v.x && this.y === v.y && this.z === v.z);
+  }
+
+  // Plane3D and Point2D
+
+  // IN: Face face
+  function Plane3D (face) {
+    var p1 = face.verts[0];
+    var p2 = face.verts[1];
+    var p3 = face.verts[2];
+    this.a = p1.y * (p2.z-p3.z) + p2.y * (p3.z-p1.z) + p3.y * (p1.z-p2.z);
+    this.b = p1.z * (p2.x-p3.x) + p2.z * (p3.x-p1.x) + p3.z * (p1.x-p2.x);
+    this.c = p1.x * (p2.y-p3.y) + p2.x * (p3.y-p1.y) + p3.x * (p1.y-p2.y);
+    this.d = -1 * (p1.x * (p2.y*p3.z - p3.y*p2.z) + p2.x * (p3.y*p1.z - p1.y*p3.z) + p3.x * (p1.y*p2.z - p2.y*p1.z));	
+  }
+
+  // OUT: point2D
+  Plane3D.prototype.getDualPointMappedToPlane = function() {
+    var nplane = this.getNormZPlane();
+    var dualPoint = new Point2D(nplane[0]/2, nplane[1]/2);
+    return dualPoint;
+  }
+
+  Plane3D.prototype.getNormZPlane = function() {
+    return [
+      -1 * (this.a / this.c),
+      -1 * (this.b / this.c),
+      -1 * (this.d / this.c)
+    ];
+  }
+
+  // IN: doubles x and y
+  function Point2D (x, y) {
+    this.x = x;
+    this.y = y;
   }
 
   // Vector
@@ -311,12 +311,6 @@
   // IN: vertices origin and dest
   HEdge.prototype.isEqual = function(origin, dest) {
     return ((this.orig.equals(origin) && this.dest.equals(dest)) || (this.orig.equals(dest) && this.dest.equals(origin)));
-  }
-
-  // IN: vectors or vertices
-  // OUT: dot product
-  var dot = function(v1, v2) {
-    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
   }
 
   // IN: Vertices a, b, c
@@ -418,6 +412,12 @@
 
   Face.prototype.removeConflict = function() {
     this.conflicts.removeAll();
+  }
+
+  // IN: vectors or vertices
+  // OUT: dot product
+  function dot (v1, v2) {
+    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
   }
 
   function ConvexHull () {
