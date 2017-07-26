@@ -1,4 +1,4 @@
-# d3-weighted-voronoi (WIP)
+# d3-weighted-voronoi
 This d3 plugin produces a _weighted Voronoi diagram_. It tesselates/partitions the plane given a set of two-dimensional weighted sites.
 
 Available only for **d3 v4**.
