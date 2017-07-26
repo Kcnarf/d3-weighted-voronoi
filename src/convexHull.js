@@ -1,11 +1,5 @@
 // convexHull.js
-
-export var epsilon = 1E-10;
-
-export function epsilonesque(n) {
-  return n === 0;
-  return n >= -epsilon && n <= epsilon;
-}
+import {epsilon, epsilonesque} from './epsilon';
 
 // IN: vectors or vertices
 // OUT: dot product

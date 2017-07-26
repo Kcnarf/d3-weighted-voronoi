@@ -4,12 +4,9 @@
   (factory((global.d3 = global.d3 || {})));
 }(this, function (exports) { 'use strict';
 
-  // convexHull.js
-
   var epsilon = 1E-10;
 
   function epsilonesque(n) {
-    return n === 0;
     return n >= -epsilon && n <= epsilon;
   }
 
