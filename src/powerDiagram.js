@@ -2,8 +2,6 @@
 import {ConvexHull, Vertex, epsilon} from './convexHull';
 import {polygonClip} from './d3-polygon-clip';
 
-export {Vertex, epsilon};
-
 // IN: HEdge edge
 function getFacesOfDestVertex(edge) {
   var faces = [];
