@@ -45,8 +45,10 @@ d3.selectAll('path')
       .attr('d', function(d){ return cellLiner(d)+"z"; })
 ```
 
-## API
+## Reference
+* [Computing Voronoi Treemaps - Faster, Simpler, and Resolution-independent ](https://www.uni-konstanz.de/mmsp/pubsys/publishedFiles/NoBr12a.pdf), section 4.4
 
+## API
 <a name="weightedVoronoi" href="#weightedVoronoi">#</a> d3.<b>weightedVoronoi</b>()
 
 Creates a new weightedVoronoi with the default [*x*-](#weightedVoronoi_x), [*y*-](#weightedVoronoi_y), [*weight*-](#weightedVoronoi_weight) and [*clip*-](#weightedVoronoi_clip) accessors.
