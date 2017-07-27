@@ -12,36 +12,36 @@
 
   // IN: vectors or vertices
   // OUT: dot product
-  function dot (v1, v2) {
-    return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z); 
+  function dot (v0, v1) {
+    return (v0.x * v1.x) + (v0.y * v1.y) + (v0.z * v1.z); 
   }
 
-  // IN: two vertex objects, p1 and p2
+  // IN: two vertex objects, p0 and p1
   // OUT: true if they are linearly dependent, false otherwise
-  function linearDependent (p1, p2) {
-    if (p1.x == 0 && p2.x == 0) {
-      if (p1.y == 0 && p2.y == 0) {
-        if (p1.z == 0 && p2.z == 0) {
+  function linearDependent (p0, p1) {
+    if (p0.x == 0 && p1.x == 0) {
+      if (p0.y == 0 && p1.y == 0) {
+        if (p0.z == 0 && p1.z == 0) {
           return true;
         }
-        if (p1.z == 0 || p2.z == 0) {
+        if (p0.z == 0 || p1.z == 0) {
           return false;
         }
         return true;
       }
-      if (p1.y == 0 || p2.y == 0) {
+      if (p0.y == 0 || p1.y == 0) {
         return false;
       }
-      if (epsilonesque(p1.z/p1.y - p2.z/p2.y)) {
+      if (epsilonesque(p0.z/p0.y - p1.z/p1.y)) {
         return true;
       } else {
         return false;
       }
     }
-    if (p1.x == 0 || p2.x == 0) {
+    if (p0.x == 0 || p1.x == 0) {
       return false;
     }
-    if (epsilonesque(p1.y/p1.x - p2.y/p2.x) && epsilonesque(p1.z/p1.x - p2.y/p2.x)) {
+    if (epsilonesque(p0.y/p0.x - p1.y/p1.x) && epsilonesque(p0.z/p0.x - p1.z/p1.x)) {
       return true;
     } else {
       return false;
