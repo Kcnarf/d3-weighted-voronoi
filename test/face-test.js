@@ -3,7 +3,7 @@ var tape = require("tape"),
     vertex = require("../build/Vertex");
     face = require("../build/face");
 
-tape("Face(...) creation with defaults", function(test) {
+tape("Face(...) should set the expected defaults", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -33,7 +33,7 @@ tape("Face(...) creation with defaults", function(test) {
   test.end();
 });
 
-tape("Face(...) creation with orient", function(test) {
+tape("Face(...) should handle orient", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -63,7 +63,7 @@ tape("Face(...) creation with orient", function(test) {
   test.end();
 });
 
-tape("Face.getDualPoint()", function(test) {
+tape("Face.getDualPoint() should return the expected Point2D", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -75,7 +75,7 @@ tape("Face.getDualPoint()", function(test) {
   test.end();
 });
 
-tape("Face.createEdges(...)", function(test) {
+tape("Face.createEdges(...) should compute the expected HEdges", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -101,7 +101,7 @@ tape("Face.createEdges(...)", function(test) {
   test.end();
 });
 
-tape("Face.orient(...)", function(test) {
+tape("Face.orient(...) should computes the expected HEdges", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -129,7 +129,7 @@ tape("Face.orient(...)", function(test) {
   test.end();
 });
 
-tape("Face.getEdge(...)", function(test) {
+tape("Face.getEdge(...) should return expected HEdge", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -145,7 +145,7 @@ tape("Face.getEdge(...)", function(test) {
   test.end();
 });
 
-tape("Face.link(...)", function(test) {
+tape("Face.link(...) should find and link twins", function(test) {
   var v00 = new vertex.Vertex(1, 0, 0),
       v01 = new vertex.Vertex(0, 2, 0),
       v02 = new vertex.Vertex(0, 0, 3),
@@ -163,7 +163,7 @@ tape("Face.link(...)", function(test) {
   test.end();
 });
 
-tape("Face.conflict(...)", function(test) {
+tape("Face.conflict(...) should detect conflict", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),

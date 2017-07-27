@@ -1,7 +1,7 @@
 var tape = require("tape"),
     vector = require("../build/vector");
 
-tape("Vector(...) creation", function(test) {
+tape("Vector(...) should set the expected defaults", function(test) {
   var v = new vector.Vector(1, 2, 3);
 
   test.equal(v.x, 1);
@@ -10,7 +10,7 @@ tape("Vector(...) creation", function(test) {
   test.end();
 });
 
-tape("Vector.negate(...)", function(test) {
+tape("Vector.negate(...) should negate", function(test) {
   var v = new vector.Vector(1, 2, 3);
 
   v.negate();
@@ -20,7 +20,7 @@ tape("Vector.negate(...)", function(test) {
   test.end();
 });
 
-tape("Vector.normalize(...)", function(test) {
+tape("Vector.normalize(...) should normalize", function(test) {
   var v = new vector.Vector(1, 2, 3)
       length = Math.sqrt(14);
 

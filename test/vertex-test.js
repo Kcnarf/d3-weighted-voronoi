@@ -2,7 +2,7 @@ var tape = require("tape"),
     utils = require("../build/utils")
     vertex = require("../build/vertex");
 
-tape("Vertex(...) creation with defaults", function(test) {
+tape("Vertex(...) should set the expected defaults", function(test) {
   var v = new vertex.Vertex(1, 2, null, null, undefined, null);
 
   test.equal(v.x, 1);
@@ -18,7 +18,7 @@ tape("Vertex(...) creation with defaults", function(test) {
   test.end();
 });
 
-tape("Vertex(...) creation with weight", function(test) {
+tape("Vertex(...) should handle weight", function(test) {
   var v = new vertex.Vertex(1, 2, null, 0, undefined, null);
 
   test.equal(v.weight, 0);
@@ -31,7 +31,7 @@ tape("Vertex(...) creation with weight", function(test) {
   test.end();
 });
 
-tape("Vertex(...) creation with z", function(test) {
+tape("Vertex(...) should handle z", function(test) {
   var v = new vertex.Vertex(1, 2, 3, null, undefined, null);
 
   test.equal(v.weight, utils.epsilon);
@@ -45,7 +45,7 @@ tape("Vertex(...) creation with z", function(test) {
   test.end();
 });
 
-tape("Vertex(...) creation with originalObject", function(test) {
+tape("Vertex(...) should handle originalObject", function(test) {
   var datum = {foo: "bar"}
       v = new vertex.Vertex(1, 2, null, null, datum, null);
 
@@ -53,14 +53,14 @@ tape("Vertex(...) creation with originalObject", function(test) {
   test.end();
 });
 
-tape("Vertex(...) creation as dummy", function(test) {
+tape("Vertex(...) should handle dummy", function(test) {
   var v = new vertex.Vertex(1, 2, null, null, undefined, true);
 
   test.equal(v.isDummy, true);
   test.end();
 });
 
-tape("Vertex.projectZ(...)", function(test) {
+tape("Vertex.projectZ(...) should compute expected projection", function(test) {
   var v = new vertex.Vertex(1, 2, null, null, undefined, null)
       projected = v.projectZ(3, 5, 7);
 
@@ -68,7 +68,7 @@ tape("Vertex.projectZ(...)", function(test) {
   test.end();
 });
 
-tape("Vertex.setWeight(...)", function(test) {
+tape("Vertex.setWeight(...) should recompute weight and z", function(test) {
   var v = new vertex.Vertex(1, 2, null, null, undefined, null)
   
   v.setWeight(5);
@@ -77,7 +77,7 @@ tape("Vertex.setWeight(...)", function(test) {
   test.end();
 });
 
-tape("Vertex.substract(...)", function(test) {
+tape("Vertex.substract(...) should return expected Vertex", function(test) {
   var v0 = new vertex.Vertex(1, 2, 3, null, undefined, null),
       v1 = new vertex.Vertex(5, 7, 11, null, undefined, null),
       subtracted = v0.subtract(v1);
@@ -88,7 +88,7 @@ tape("Vertex.substract(...)", function(test) {
   test.end();
 });
 
-tape("Vertex.crossproduct(...)", function(test) {
+tape("Vertex.crossproduct(...) should return expected Vertex", function(test) {
   var v0 = new vertex.Vertex(1, 2, 3, null, undefined, null),
       v1 = new vertex.Vertex(5, 7, 11, null, undefined, null),
       crossed = v0.crossproduct(v1);
@@ -99,7 +99,7 @@ tape("Vertex.crossproduct(...)", function(test) {
   test.end();
 });
 
-tape("Vertex.equals(...)", function(test) {
+tape("Vertex.equals(...) should detect if it corresponds to its x, y and z", function(test) {
   var v0 = new vertex.Vertex(1, 2, 3, null, undefined, null),
       v1 = new vertex.Vertex(1, 2, 3, null, undefined, null),
       v2 = new vertex.Vertex(1, 2, 4, null, undefined, null);

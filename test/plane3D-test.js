@@ -28,7 +28,7 @@ tape("Plane3D.getNormZPlane()", function(test) {
   test.end();
 });
 
-tape("Plane3D.getDualPointMappedToPlane()", function(test) {
+tape("Plane3D.getDualPointMappedToPlane() should set the expected defaults", function(test) {
   var v0 = {x: 1, y: 0, z: 0},
       v1 = {x: 0, y: 2, z: 0},
       v2 = {x: 0, y: 0, z: 3},

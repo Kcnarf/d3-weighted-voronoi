@@ -2,7 +2,7 @@ var tape = require("tape"),
     vertex = require("../build/Vertex");
     hEdge = require("../build/hEdge");
 
-tape("HEdge(...) creation", function(test) {
+tape("HEdge(...) should set the expected defaults", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),
@@ -18,7 +18,7 @@ tape("HEdge(...) creation", function(test) {
   test.end();
 });
 
-tape("HEdge.isHorizon(...)", function(test) {
+tape("HEdge.isHorizon(...) should detect if it is an horizon", function(test) {
   var v00 = new vertex.Vertex(1, 0, 0),
       v01 = new vertex.Vertex(0, 2, 0),
       v02 = new vertex.Vertex(0, 0, 3),
@@ -44,7 +44,7 @@ tape("HEdge.isHorizon(...)", function(test) {
   test.end();
 });
 
-tape("HEdge.isEqual(...)", function(test) {
+tape("HEdge.isEqual(...) should detect if it corresponds to its orig and dest", function(test) {
   var v0 = new vertex.Vertex(1, 0, 0),
       v1 = new vertex.Vertex(0, 2, 0),
       v2 = new vertex.Vertex(0, 0, 3),

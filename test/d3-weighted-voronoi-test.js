@@ -1,7 +1,7 @@
 var tape = require("tape"),
     d3WeightedVoronoi = require('../build/d3-weighted-voronoi');
 
-tape("weightedVoronoi(...) creation with defaults", function(test) {
+tape("weightedVoronoi(...) should set the expected defaults", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
       datum = {x: 1, y: 2, weight: 3};
 
@@ -12,7 +12,7 @@ tape("weightedVoronoi(...) creation with defaults", function(test) {
   test.end();
 });
 
-tape("weightedVoronoi.x(...)", function(test) {
+tape("weightedVoronoi.x(...) should set the specified x-accessor", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
       datum = {xPrime: 1, y: 2, weight: 3};
 
@@ -21,7 +21,7 @@ tape("weightedVoronoi.x(...)", function(test) {
   test.end();
 });
 
-tape("weightedVoronoi.y(...)", function(test) {
+tape("weightedVoronoi.y(...) should set the specified y-accessor", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
       datum = {x: 1, yPrime: 2, weight: 3};
 
@@ -30,7 +30,7 @@ tape("weightedVoronoi.y(...)", function(test) {
   test.end();
 });
 
-tape("weightedVoronoi.weight(...)", function(test) {
+tape("weightedVoronoi.weight(...) should set the specified weight-accessor", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
       datum = {xPrime: 1, y: 2, weightPrime: 3};
 
@@ -39,7 +39,7 @@ tape("weightedVoronoi.weight(...)", function(test) {
   test.end();
 });
 
-tape("weightedVoronoi.clip(...)", function(test) {
+tape("weightedVoronoi.clip(...) should set the specified clipping polygon", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
       newClip = [[0,1], [-1,0], [1,0]];
 
