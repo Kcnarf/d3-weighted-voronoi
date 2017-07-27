@@ -11,19 +11,19 @@ export function Plane3D (face) {
   this.d = -1 * (p1.x * (p2.y*p3.z - p3.y*p2.z) + p2.x * (p3.y*p1.z - p1.y*p3.z) + p3.x * (p1.y*p2.z - p2.y*p1.z));	
 }
 
-// OUT: point2D
-Plane3D.prototype.getDualPointMappedToPlane = function() {
-  var nplane = this.getNormZPlane();
-  var dualPoint = new Point2D(nplane[0]/2, nplane[1]/2);
-  return dualPoint;
-}
-
 Plane3D.prototype.getNormZPlane = function() {
   return [
     -1 * (this.a / this.c),
     -1 * (this.b / this.c),
     -1 * (this.d / this.c)
   ];
+}
+
+// OUT: point2D
+Plane3D.prototype.getDualPointMappedToPlane = function() {
+  var nplane = this.getNormZPlane();
+  var dualPoint = new Point2D(nplane[0]/2, nplane[1]/2);
+  return dualPoint;
 }
 
 // IN: doubles x and y
