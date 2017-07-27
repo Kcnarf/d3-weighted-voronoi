@@ -9,7 +9,7 @@ Compared to the _default_ Voronoï diagram, it add the capability to assign a pa
 Weighted Voronoï diagram comes in severall flavours (additive/multiplicative, powered/not-powered, 2D/3D and higher dimensions, ..., cf. [Wikipedia](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)), but this plugin focuses on the **2D additive weighted power diagram**, which provides a tessellation made of concave hole-free polygons/cells with straight borders, as the default Voronoï diagram does.
 
 ## Examples
-* [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/5c989173d0e0c74ab4b62161b33bb0a8).
+* [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39).
 
 ## Installing
 Load ```https://rawgit.com/Kcnarf/d3.beeswarm/master/build/d3-weighted-voronoi.js``` (or its .min version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
@@ -20,8 +20,6 @@ Load ```https://rawgit.com/Kcnarf/d3.beeswarm/master/build/d3-weighted-voronoi.j
   cells = d3.weightedVoronoi();
 </script>
 ```
-
-Cf. the block [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ock.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39) for usage.
 
 ## TL;DR;
 In your javascript, in order to define the tesselation:
