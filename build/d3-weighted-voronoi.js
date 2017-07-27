@@ -858,7 +858,7 @@
     var x = function (d) { return d.x; };           // accessor to the x value
     var y = function (d) { return d.y; };           // accessor to the y value
     var weight = function (d) { return d.weight; }; // accessor to the weight
-    var clip = [[0,0], [0,1], [1,0], [1,1]]         // clipping polygon
+    var clip = [[0,0], [0,1], [1,1], [1,0]]         // clipping polygon
 
     ///////////////////////
     ///////// API /////////
