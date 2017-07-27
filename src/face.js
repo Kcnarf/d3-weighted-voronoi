@@ -75,17 +75,19 @@ Face.prototype.link = function(face, v0, v1) {
   if (face instanceof Face) {
     var twin = face.getEdge(v0, v1);
     if (twin === null) {
-
-      console.log("ERROR: twin is null");
+      console.log("ERROR: when linking, twin is null");
     }
     var edge = this.getEdge(v0, v1);
+    if (edge === null) {
+      console.log("ERROR: when linking, edge is null");
+    }
     twin.twin = edge;
     edge.twin = twin;
   } else {
-    var e = face;
-    var edge = this.getEdge(e.orig, e.dest);
-    e.twin = edge;
-    edge.twin = e;
+    var twin = face; // face is a hEdge
+    var edge = this.getEdge(twin.orig, twin.dest);
+    twin.twin = edge;
+    edge.twin = twin;
   }
 }
 
