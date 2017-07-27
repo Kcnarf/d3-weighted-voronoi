@@ -327,7 +327,7 @@
   }
 
   HEdge.prototype.isHorizon = function() {
-    return this.twin !== null && this.twin.iFace.marked && !this.iFace.marked;
+    return this.twin !== null && !this.iFace.marked && this.twin.iFace.marked;
   }
 
   // IN: array horizon
