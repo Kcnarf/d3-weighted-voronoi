@@ -15,10 +15,10 @@ Vector.prototype.negate = function() {
 
 // Normalizes X Y and Z in-place
 Vector.prototype.normalize = function() {
-  var len = Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
-  if (len > 0) {
-    this.x /= len;
-    this.y /= len;
-    this.z /= len;
+  var lenght = Math.sqrt((this.x * this.x) + (this.y * this.y) + (this.z * this.z));
+  if (lenght > 0) {
+    this.x /= lenght;
+    this.y /= lenght;
+    this.z /= lenght;
   }
 }
