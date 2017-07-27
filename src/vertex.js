@@ -31,13 +31,13 @@ export function Vertex (x, y, z, weight, orig, isDummy) {
   }
 }
 
+Vertex.prototype.projectZ = function(x, y, weight) {
+  return ((x*x) + (y*y) - weight);
+}
+
 Vertex.prototype.setWeight = function(weight) {
   this.weight = weight;
   this.z = this.projectZ(this.x, this.y, this.weight);
-}
-
-Vertex.prototype.projectZ = function(x, y, weight) {
-  return ((x*x) + (y*y) - weight);
 }
 
 Vertex.prototype.subtract = function(v) {

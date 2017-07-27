@@ -184,13 +184,13 @@
     }
   }
 
+  Vertex.prototype.projectZ = function(x, y, weight) {
+    return ((x*x) + (y*y) - weight);
+  }
+
   Vertex.prototype.setWeight = function(weight) {
     this.weight = weight;
     this.z = this.projectZ(this.x, this.y, this.weight);
-  }
-
-  Vertex.prototype.projectZ = function(x, y, weight) {
-    return ((x*x) + (y*y) - weight);
   }
 
   Vertex.prototype.subtract = function(v) {
@@ -234,13 +234,13 @@
     }
   }
 
+  Vertex$1.prototype.projectZ = function(x, y, weight) {
+    return ((x*x) + (y*y) - weight);
+  }
+
   Vertex$1.prototype.setWeight = function(weight) {
     this.weight = weight;
     this.z = this.projectZ(this.x, this.y, this.weight);
-  }
-
-  Vertex$1.prototype.projectZ = function(x, y, weight) {
-    return ((x*x) + (y*y) - weight);
   }
 
   Vertex$1.prototype.subtract = function(v) {
