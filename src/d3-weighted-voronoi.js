@@ -77,6 +77,7 @@ export function weightedVoronoi () {
 
     // MUST be counterclockwise
     // if not, may produce 'TypeError: Cannot set property 'twin' of null' during computation
+    // don't know how to test as it is not exposed
     boundingData[0] = [x0, y0];
     boundingData[1] = [x0, y1];
     boundingData[2] = [x1, y1];
