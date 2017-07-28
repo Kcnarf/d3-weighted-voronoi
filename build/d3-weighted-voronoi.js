@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-polygon')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'd3-polygon'], factory) :
-  (factory((global.d3 = global.d3 || {}),global.d3));
-}(this, function (exports,d3Polygon) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-array'), require('d3-polygon')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'd3-array', 'd3-polygon'], factory) :
+  (factory((global.d3 = global.d3 || {}),global.d3,global.d3));
+}(this, function (exports,d3Array,d3Polygon) { 'use strict';
 
   var epsilon = 1E-10;
 
@@ -838,7 +838,7 @@
             }
             
             site.nonClippedPolygon = protopoly.reverse();
-            if (!site.isDummy && d3.polygonLength(site.nonClippedPolygon) > 0) {
+            if (!site.isDummy && d3Polygon.polygonLength(site.nonClippedPolygon) > 0) {
               var clippedPoly = polygonClip(clippingPolygon, site.nonClippedPolygon);
               site.polygon = clippedPoly;
               clippedPoly.site = site;
@@ -914,8 +914,8 @@
           x0, x1, y0, y1,
           boundingData = [], boundingSites = [];
 
-      xExtent = d3.extent(clip.map(function(c){ return c[0]; }));
-      yExtent = d3.extent(clip.map(function(c){ return c[1]; }));
+      xExtent = d3Array.extent(clip.map(function(c){ return c[0]; }));
+      yExtent = d3Array.extent(clip.map(function(c){ return c[1]; }));
       
       minX = xExtent[0];
       maxX = xExtent[1];

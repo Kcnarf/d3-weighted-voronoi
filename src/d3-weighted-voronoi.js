@@ -1,4 +1,5 @@
-import { polygonHull } from 'd3-polygon';
+import {extent} from 'd3-array';
+import {polygonHull} from 'd3-polygon';
 import {epsilon} from './utils';
 import {Vertex} from './vertex';
 import {computePowerDiagramIntegrated} from './powerDiagram';
@@ -64,8 +65,8 @@ export function weightedVoronoi () {
         x0, x1, y0, y1,
         boundingData = [], boundingSites = [];
 
-    xExtent = d3.extent(clip.map(function(c){ return c[0]; }));
-    yExtent = d3.extent(clip.map(function(c){ return c[1]; }));
+    xExtent = extent(clip.map(function(c){ return c[0]; }));
+    yExtent = extent(clip.map(function(c){ return c[1]; }));
     
     minX = xExtent[0];
     maxX = xExtent[1];

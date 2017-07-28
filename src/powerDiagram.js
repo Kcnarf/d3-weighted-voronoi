@@ -1,4 +1,5 @@
 // powerDiagram.js - computePowerDiagramIntegrated() and subroutines
+import {polygonLength} from 'd3-polygon';
 import {epsilon} from './utils';
 import {Vertex} from './vertex';
 import {ConvexHull} from './convexHull';
@@ -83,7 +84,7 @@ export function computePowerDiagramIntegrated (sites, boundingSites, clippingPol
           }
           
           site.nonClippedPolygon = protopoly.reverse();
-          if (!site.isDummy && d3.polygonLength(site.nonClippedPolygon) > 0) {
+          if (!site.isDummy && polygonLength(site.nonClippedPolygon) > 0) {
             var clippedPoly = polygonClip(clippingPolygon, site.nonClippedPolygon);
             site.polygon = clippedPoly;
             clippedPoly.site = site;

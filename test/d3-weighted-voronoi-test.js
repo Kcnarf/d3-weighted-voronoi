@@ -47,3 +47,13 @@ tape("weightedVoronoi.clip(...) should set the adequate convex, hole-free, count
   test.deepEqual(weightedVoronoi.clip(), [[1,1], [1,0], [0,0], [0,1]]);
   test.end();
 });
+
+tape("weightedVoronoi.(...) should compute weighted voronoi diagram", function(test) {
+  var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+      data = [{x: 0.25, y: 0.5, weight: 0},
+                {x: 0.75, y: 0.5, weight: 0.25}],
+      cells = weightedVoronoi(data);
+
+  test.equal(cells.length, 2);
+  test.end();
+});

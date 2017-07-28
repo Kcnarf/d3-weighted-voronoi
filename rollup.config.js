@@ -1,4 +1,5 @@
 var globals = {
+  'd3-array': 'd3',
   'd3-polygon': 'd3'
 }
 
