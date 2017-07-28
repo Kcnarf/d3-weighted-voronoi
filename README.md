@@ -96,11 +96,15 @@ If *clip* is specified, sets the clipping polygon. *clip* defines a hole-free co
 [[0,0], [0,1], [1,1], [1,0]]
 ```
 
+## Dependencies
+ * d3-array.extent
+ * d3-polygon.{polygonHull, polygonLenght}
+
 ## Testing
 In order to test the code
 
 ```sh
-git clone ...
+git clone https://github.com/Kcnarf/d3-weighted-voronoi.git
 [...]
 yarn install
 [...]
