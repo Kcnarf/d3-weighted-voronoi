@@ -39,11 +39,11 @@ tape("weightedVoronoi.weight(...) should set the specified weight-accessor", fun
   test.end();
 });
 
-tape("weightedVoronoi.clip(...) should set the specified clipping polygon", function(test) {
+tape("weightedVoronoi.clip(...) should set the adequate convex, hole-free, counterclockwise clipping polygon", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
-      newClip = [[0,1], [-1,0], [1,0]];
+      newClip = [[0,0], [0,1], [1,0], [1,1]];
 
   test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
-  test.deepEqual(weightedVoronoi.clip(), [[0,1], [-1,0], [1,0]]);
+  test.deepEqual(weightedVoronoi.clip(), [[1,1], [1,0], [0,0], [0,1]]);
   test.end();
 });

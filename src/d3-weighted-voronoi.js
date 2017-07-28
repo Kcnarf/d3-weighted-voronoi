@@ -1,3 +1,4 @@
+import { polygonHull } from 'd3-polygon';
 import {epsilon} from './utils';
 import {Vertex} from './vertex';
 import {computePowerDiagramIntegrated} from './powerDiagram';
@@ -48,7 +49,7 @@ export function weightedVoronoi () {
 
   _weightedVoronoi.clip = function (_) {
     if (!arguments.length) { return clip; }
-    clip = _;
+    clip = polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
 
     return _weightedVoronoi;
   };

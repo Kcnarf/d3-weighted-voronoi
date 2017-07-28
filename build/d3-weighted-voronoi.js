@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.d3 = global.d3 || {})));
-}(this, function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('d3-polygon')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'd3-polygon'], factory) :
+  (factory((global.d3 = global.d3 || {}),global.d3));
+}(this, function (exports,d3Polygon) { 'use strict';
 
   var epsilon = 1E-10;
 
@@ -899,7 +899,7 @@
 
     _weightedVoronoi.clip = function (_) {
       if (!arguments.length) { return clip; }
-      clip = _;
+      clip = d3Polygon.polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
 
       return _weightedVoronoi;
     };
