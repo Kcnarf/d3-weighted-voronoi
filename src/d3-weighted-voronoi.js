@@ -75,10 +75,12 @@ export function weightedVoronoi () {
     y0 = minY - maxY;
     y1 = 2 * maxY;
 
+    // MUST be counterclockwise
+    // if not, may produce 'TypeError: Cannot set property 'twin' of null' during computation
     boundingData[0] = [x0, y0];
-    boundingData[1] = [x1, y0];
+    boundingData[1] = [x0, y1];
     boundingData[2] = [x1, y1];
-    boundingData[3] = [x0, y1];
+    boundingData[3] = [x1, y0];
     
     for (var i = 0; i < 4; i++){
       boundingSites.push( new Vertex(boundingData[i][0], boundingData[i][1], null, epsilon, new Vertex(boundingData[i][0], boundingData[i][1], null, epsilon, null, true), true));
