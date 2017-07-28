@@ -24,7 +24,7 @@
   "scripts": {
     "pretest": "rm -rf build && mkdir build && rollup -f umd -n d3 -o build/d3-weighted-voronoi.js -- index.js && rollup -f umd -n vanilla --o build/utils.js -- ./src/utils.js && rollup -f umd -n vanilla --o build/plane3D.js -- ./src/plane3D.js && rollup -f umd -n vanilla --o build/conflictList.js -- ./src/conflictList.js && rollup -f umd -n vanilla --o build/vertex.js -- ./src/vertex.js && rollup -f umd -n vanilla --o build/vector.js -- ./src/vector.js && rollup -f umd -n vanilla --o build/hEdge.js -- ./src/hEdge.js && rollup -f umd -n vanilla --o build/face.js -- ./src/face.js && rollup -f umd -n vanilla --o build/convexHull.js -- ./src/convexHull.js && rollup -f umd -n vanilla --o build/powerDiagram.js -- ./src/powerDiagram.js",
     "test": "tape 'test/**/*-test.js'",
-    "build": "yarn run test && uglifyjs build/d3-weighted-voronoi.js -c -m -o build/d3-weighted-voronoi.min.js"
+    "prepush": "yarn run test && uglifyjs build/d3-weighted-voronoi.js -c -m -o build/d3-weighted-voronoi.min.js"
   },
   "devDependencies": {
     "rollup": "0.27",
