@@ -41,7 +41,7 @@ tape("weightedVoronoi.weight(...) should set the specified weight-accessor", fun
 
 tape("weightedVoronoi.clip(...) should set the adequate convex, hole-free, counterclockwise clipping polygon", function(test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
-      newClip = [[0,0], [0,1], [1,0], [1,1]];
+      newClip = [[0,0], [0,1], [1,0], [1,1]];   //self-intersecting polygon
 
   test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
   test.deepEqual(weightedVoronoi.clip(), [[1,1], [1,0], [0,0], [0,1]]);
@@ -49,11 +49,26 @@ tape("weightedVoronoi.clip(...) should set the adequate convex, hole-free, count
 });
 
 tape("weightedVoronoi.(...) should compute weighted voronoi diagram", function(test) {
-  var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
-      data = [{x: 0.25, y: 0.5, weight: 0},
-                {x: 0.75, y: 0.5, weight: 0.25}],
-      cells = weightedVoronoi(data);
+    test.test("basic use case", function(test) {
+      var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+          data = [{x: 0.25, y: 0.5, weight: 0},
+                    {x: 0.75, y: 0.5, weight: 0.25}],
+          cells = weightedVoronoi(data);
 
-  test.equal(cells.length, 2);
-  test.end();
+      test.equal(cells.length, 2);
+      test.end();
+    });
+
+    test.test("on same sites, highest weight should overweight others sites", function(test) {
+    var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+        s0 = {x: 0.5, y: 0.5, weight: 0.5},
+        s1 = {x: 0.5, y: 0.5, weight: 2},
+        s2 = {x: 0.5, y: 0.5, weight: 1}
+        data = [s0, s1],
+        cells = weightedVoronoi(data);
+
+      test.equal(cells.length, 1);
+      test.equal(cells[0].site.originalObject, s1)
+      test.end();
+    });
 });
