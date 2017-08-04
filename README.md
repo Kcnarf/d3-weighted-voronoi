@@ -1,5 +1,5 @@
 # d3-weighted-voronoi
-This d3 plugin produces a _weighted Voronoi diagram_. It tesselates/partitions the plane given a set of weighted two-dimensional sites.
+This d3 plugin produces a _weighted Voronoi diagram_. It tessellates/partitions the plane given a set of weighted two-dimensional sites.
 
 Available only for **d3 v4**.
 
@@ -22,7 +22,7 @@ Load ```https://rawgit.com/Kcnarf/d3.beeswarm/master/build/d3-weighted-voronoi.j
 ```
 
 ## TL;DR;
-In your javascript, in order to define the tesselation:
+In your javascript, in order to define the tessellation:
 ```javascript
 var weightedVoronoi = d3.weightedVoronoi()
   .x(function(d){ return xScale(d); }                   // set the x coordinate accessor
