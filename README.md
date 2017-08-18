@@ -1,16 +1,16 @@
 # d3-weighted-voronoi
-This d3 plugin produces a _weighted Voronoi diagram_. It tessellates/partitions the plane given a set of weighted two-dimensional sites.
+This d3 plugin produces a *weighted Voronoi diagram*. It tessellates/partitions the plane given a set of weighted two-dimensional sites.
 
 Available only for **d3 v4**.
 
 ## Context
-Compared to the _default_ Voronoï diagram, it add the capability to assign a particular weight to each site. The higher is the weight of a site, the more this site influences its environment, and the larger is its surrounding area.
+Compared to the *default* Voronoï diagram, it add the capability to assign a particular weight to each site. The higher is the weight of a site, the more this site influences its environment, and the larger is its surrounding area.
 
 Weighted Voronoï diagram comes in severall flavours (additive/multiplicative, powered/not-powered, 2D/3D and higher dimensions, ..., cf. [Wikipedia](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)). This plugin focuses on the **2D additive weighted power diagram**, which provides a tessellation made of concave hole-free polygons/cells with straight borders, as the default Voronoï diagram does.
 
-Nonetheless, weighted Voronoï diagrams may have weird properties compared to basic Voronoï diagrams:
+Nonetheless, weighted Voronoï diagrams may have weird properties compared to *default* Voronoï diagrams:
  * a site may be outside it's zone of influence (ie. computed polygon) 
- * a site may have no zone of influence (ie. computed polygon)
+ * a site may have no zone of influence
 
  These situations arise when some sites are overweighted by others. You can experiment it in [Voronoï playground : interactive weighted Voronoï study](http://bl.ocks.org/Kcnarf/dacd1d9d2f0e69cf93c68ecf32f7896d).
 
@@ -64,9 +64,9 @@ Computes the **weighted Voronoi diagram** for the specified *data* points.
 
 Returns a sparse array of polygons clipped to the [*clip*](#weightedVoronoi_clip) polygon, one for each cell (each unique input point) in the diagram. Each polygon is represented as an array of points \[*x*, *y*\] where *x* and *y* are the point coordinates, a *site* field that refers to its site (ie. with x, y and weight retrieved from the original data), and a *site.originalObject* field that refers to the corresponding element in *data*. Polygons are open: they do not contain a closing point that duplicates the first point; a triangle, for example, is an array of three points. Polygons are also counterclockwise (assuming the origin ⟨0,0⟩ is in the top-left corner).
 
-Note that weighted Voronoï diagrams may have weird properties compared to basic Voronoï diagrams:
+Note that weighted Voronoï diagrams may have weird properties compared to *default* Voronoï diagrams:
  * a site may be outside it's zone of influence (ie. computed polygon) 
- * a site may have no zone of influence (ie. computed polygon)
+ * a site may have no zone of influence
 
  These situations arise when some sites are overweighted by others. You can experiment it in [Voronoï playground : interactive weighted Voronoï study](http://bl.ocks.org/Kcnarf/dacd1d9d2f0e69cf93c68ecf32f7896d).
 
