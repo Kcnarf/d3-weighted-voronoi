@@ -18,7 +18,7 @@ Nonetheless, weighted Voronoï diagrams may have weird properties compared to *d
 * [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39).
 
 ## Installing
-If you use NPM, ```npm install d3-weighted-voronoi```. Otherwise, load ```https://rawgit.com/Kcnarf/d3.beeswarm/master/build/d3-weighted-voronoi.js``` (or its ```d3-weighted-voronoi.min.js``` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
+If you use NPM, ```npm install d3-weighted-voronoi```. Otherwise, load ```https://rawgit.com/Kcnarf/d3-weighted-voronoi/master/build/d3-weighted-voronoi.js``` (or its ```d3-weighted-voronoi.min.js``` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
 ```html
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://raw.githack.com/Kcnarf/d3-weighted-voronoi/master/build/d3-weighted-voronoi.js"></script>
@@ -56,7 +56,7 @@ d3.selectAll('path')
 ## API
 <a name="weightedVoronoi" href="#weightedVoronoi">#</a> d3.<b>weightedVoronoi</b>()
 
-Creates a new weightedVoronoi with the default [*x*-](#weightedVoronoi_x), [*y*-](#weightedVoronoi_y), [*weight*-](#weightedVoronoi_weight) and [*clip*-](#weightedVoronoi_clip) accessors.
+Creates a new weightedVoronoi with the default [*x*-](#weightedVoronoi_x), [*y*-](#weightedVoronoi_y), [*weight*-](#weightedVoronoi_weight) accessors, and [*clip*](#weightedVoronoi_clip) configuration value.
 
 <a name="_weightedVoronoi" href="#_weightedVoronoi">#</a> <i>weightedVoronoi</i>(<i>data</i>)
 
@@ -92,10 +92,10 @@ function y(d) {
 
 <a name="weightedVoronoi_weight" href="#weightedVoronoi_weight">#</a> <i>weightedVoronoi</i>.<b>weight</b>([<i>weight</i>])
 
-If *weighty* is specified, sets the *weight*-coordinate accessor. If *weight* is not specified, returns the current *weight*-coordinate accessor, which defaults to:
+If *weight* is specified, sets the *weight* accessor. If *weight* is not specified, returns the current *weight* accessor, which defaults to:
 
 ```js
-function y(d) {
+function weight(d) {
   return d.weight;
 }
 ```
