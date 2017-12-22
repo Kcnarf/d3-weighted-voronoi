@@ -3,11 +3,11 @@ This d3 plugin produces a *weighted Voronoi diagram*. It tessellates/partitions 
 
 Because a picture is worth a thousand words:
 
-![defaultVoronoi](./img/defaultVoronoi.png) ==> ![weightedVoronoi](./img/weightedVoronoi.png)
+![defaultVoronoi](./img/defaultVoronoi.png) <== default / weighted ==> ![weightedVoronoi](./img/weightedVoronoi.png)
 
 Available only for **d3 v4**.
 
-this plugin is one of the core feature of the [d3-voronoi-map](https://github.com/Kcnarf/d3-voronoi-map) and [d3-voronoi-treemap](https://github.com/Kcnarf/d3-voronoi-treemap) plugins, which computes respectively one-level and multi-level Voronoi-based treemaps.
+this plugin is one of the core features of the [d3-voronoi-map](https://github.com/Kcnarf/d3-voronoi-map) and [d3-voronoi-treemap](https://github.com/Kcnarf/d3-voronoi-treemap) plugins, which computes respectively one-level and multi-level Voronoi-based treemaps.
 
 ## Context
 Compared to the *default* Voronoï diagram, it adds the capability to assign a particular weight to each site. The higher is the weight of a site, the more this site influences its environment, and the larger is its surrounding area.
