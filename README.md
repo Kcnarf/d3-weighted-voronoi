@@ -1,12 +1,18 @@
 # d3-weighted-voronoi
 This d3 plugin produces a *weighted Voronoi diagram*. It tessellates/partitions the plane given a set of weighted two-dimensional sites.
 
+Because a picture is worth a thousand words:
+
+![defaultVoronoi](./img/defaultVoronoi.png) ==> ![weightedVoronoi](./img/weightedVoronoi.png)
+
 Available only for **d3 v4**.
 
-## Context
-Compared to the *default* Voronoï diagram, it add the capability to assign a particular weight to each site. The higher is the weight of a site, the more this site influences its environment, and the larger is its surrounding area.
+this plugin is one of the core feature of the [d3-voronoi-map](https://github.com/Kcnarf/d3-voronoi-map) and [d3-voronoi-treemap](https://github.com/Kcnarf/d3-voronoi-treemap) plugins, which computes respectively one-level and multi-level Voronoi-based treemaps.
 
-Weighted Voronoï diagram comes in severall flavours (additive/multiplicative, powered/not-powered, 2D/3D and higher dimensions, ..., cf. [Wikipedia](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)). This plugin focuses on the **2D additive weighted power diagram**, which provides a tessellation made of concave hole-free polygons/cells with straight borders, as the default Voronoï diagram does.
+## Context
+Compared to the *default* Voronoï diagram, it adds the capability to assign a particular weight to each site. The higher is the weight of a site, the more this site influences its environment, and the larger is its surrounding area.
+
+Weighted Voronoï diagrams come in severall flavours (additive/multiplicative, powered/not-powered, 2D/3D and higher dimensions, ..., cf. [Wikipedia](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)). This plugin focuses on the **2D additive weighted power diagram**, which provides a tessellation made of concave hole-free polygons/cells with straight borders, as the default Voronoï diagram does.
 
 Nonetheless, weighted Voronoï diagrams may have weird properties compared to *default* Voronoï diagrams:
  * a site may be outside it's zone of influence (ie. computed polygon) 
@@ -15,7 +21,7 @@ Nonetheless, weighted Voronoï diagrams may have weird properties compared to *d
  These situations arise when some sites are overweighted by others. You can experiment it in [Voronoï playground : interactive weighted Voronoï study](http://bl.ocks.org/Kcnarf/dacd1d9d2f0e69cf93c68ecf32f7896d).
 
 ## Examples
-* [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39).
+* [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39)
 
 ## Installing
 If you use NPM, ```npm install d3-weighted-voronoi```. Otherwise, load ```https://rawgit.com/Kcnarf/d3-weighted-voronoi/master/build/d3-weighted-voronoi.js``` (or its ```d3-weighted-voronoi.min.js``` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
