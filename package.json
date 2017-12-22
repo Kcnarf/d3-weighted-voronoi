@@ -10,7 +10,7 @@
     "diagram",
     "tesselation"
   ],
-  "license": "WTFPL",
+  "license": "GPL-3.0",
   "author": " Kcnarf <fl.franck.lebeau@gmail.com>",
   "main": "build/d3-weighted-voronoi.js",
   "jsnext:main": "index",
