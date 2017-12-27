@@ -858,7 +858,9 @@
     var x = function (d) { return d.x; };           // accessor to the x value
     var y = function (d) { return d.y; };           // accessor to the y value
     var weight = function (d) { return d.weight; }; // accessor to the weight
-    var clip = [[0,0], [0,1], [1,1], [1,0]]         // clipping polygon
+    var clip = [[0,0], [0,1], [1,1], [1,0]];        // clipping polygon
+    var extent = [[0,0], [1,1]];                    // extent of the clipping polygon
+    var size = [1,1]                                // [width, height] of the clipping polygon
 
     ///////////////////////
     ///////// API /////////
@@ -878,29 +880,53 @@
 
     _weightedVoronoi.x = function (_) {
       if (!arguments.length) { return x; }
-      x = _;
 
+      x = _;
       return _weightedVoronoi;
     };
 
     _weightedVoronoi.y = function (_) {
       if (!arguments.length) { return y; }
-      y = _;
 
+      y = _;
       return _weightedVoronoi;
     };
 
     _weightedVoronoi.weight = function (_) {
       if (!arguments.length) { return weight; }
-      weight = _;
 
+      weight = _;
       return _weightedVoronoi;
     };
 
     _weightedVoronoi.clip = function (_) {
-      if (!arguments.length) { return clip; }
-      clip = d3Polygon.polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
+      var xExtent, yExtent;
 
+      if (!arguments.length) { return clip; }
+
+      xExtent = d3Array.extent(_.map(function(c){ return c[0]; }));
+      yExtent = d3Array.extent(_.map(function(c){ return c[1]; }));
+      clip = d3Polygon.polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
+      extent = [[xExtent[0], yExtent[0]], [xExtent[1], yExtent[1]]];
+      size = [xExtent[1]-xExtent[0], yExtent[1]-yExtent[0]];
+      return _weightedVoronoi;
+    };
+
+    _weightedVoronoi.extent = function (_) {
+      if (!arguments.length) { return extent; }
+
+      clip = [_[0], [_[0][0], _[1][1]], _[1], [_[1][0], _[0][1]]];
+      extent = _
+      size = [_[1][0]-_[0][0], _[1][1]-_[0][1]];
+      return _weightedVoronoi;
+    };
+
+    _weightedVoronoi.size = function (_) {
+      if (!arguments.length) { return size; }
+
+      clip = [[0,0], [0, _[1]], [_[0], _[1]], [_[0], 0]];
+      extent = [[0,0], _];
+      size = _;
       return _weightedVoronoi;
     };
 

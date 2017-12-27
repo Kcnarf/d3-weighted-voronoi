@@ -9,6 +9,8 @@ tape("weightedVoronoi(...) should set the expected defaults", function(test) {
   test.equal(weightedVoronoi.y()(datum), 2);
   test.equal(weightedVoronoi.weight()(datum), 3);
   test.deepEqual(weightedVoronoi.clip(), [[0,0], [0,1], [1,1], [1,0]]);
+  test.deepEqual(weightedVoronoi.extent(), [[0,0], [1,1]]);
+  test.deepEqual(weightedVoronoi.size(), [1,1]);
   test.end();
 });
 
@@ -39,12 +41,49 @@ tape("weightedVoronoi.weight(...) should set the specified weight-accessor", fun
   test.end();
 });
 
-tape("weightedVoronoi.clip(...) should set the adequate convex, hole-free, counterclockwise clipping polygon", function(test) {
-  var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
-      newClip = [[0,0], [0,1], [1,0], [1,1]];   //self-intersecting polygon
+tape("weightedVoronoi.clip(...)", function(test) {
+  test.test("weightedVoronoi.clip(...) should set adequate clipping polygon, extent and size", function(test) {
+    var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+        newClip = [[1,0], [0,1], [1,2], [2,1]];  // diamond
 
-  test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
-  test.deepEqual(weightedVoronoi.clip(), [[1,1], [1,0], [0,0], [0,1]]);
+    test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
+    test.deepEqual(weightedVoronoi.clip(), [[2,1], [1,0], [0,1], [1,2]]);
+    test.deepEqual(weightedVoronoi.extent(), [[0,0], [2,2]]);
+    test.deepEqual(weightedVoronoi.size(), [2,2]);
+    test.end();
+  });
+
+  test.test("weightedVoronoi.clip(...) should set the adequate convex, hole-free, counterclockwise clipping polygon, extent and size", function(test) {
+    var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+        newClip = [[0,0], [0,1], [1,0], [1,1]]; // self-intersecting polygon
+
+    test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
+    test.deepEqual(weightedVoronoi.clip(), [[1,1], [1,0], [0,0], [0,1]]);
+    test.deepEqual(weightedVoronoi.extent(), [[0,0], [1,1]]);
+    test.deepEqual(weightedVoronoi.size(), [1,1]);
+    test.end();
+  });
+});
+
+tape("weightedVoronoi.extent(...) should set adequate extent, clipping polygon and size", function(test) {
+  var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+      newExtent = [[1,1], [3,3]];
+
+  test.equal(weightedVoronoi.extent(newExtent), weightedVoronoi);
+  test.deepEqual(weightedVoronoi.clip(), [[1,1], [1,3], [3,3], [3,1]]);
+  test.deepEqual(weightedVoronoi.extent(), [[1,1], [3,3]]);
+  test.deepEqual(weightedVoronoi.size(), [2,2]);
+  test.end();
+});
+
+tape("weightedVoronoi.size(...) should set adequate size, clipping polygon and extent", function(test) {
+  var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
+      newSize = [2,3];
+
+  test.equal(weightedVoronoi.size(newSize), weightedVoronoi);
+  test.deepEqual(weightedVoronoi.clip(), [[0,0], [0,3], [2,3], [2,0]]);
+  test.deepEqual(weightedVoronoi.extent(), [[0,0], [2,3]]);
+  test.deepEqual(weightedVoronoi.size(), [2,3]);
   test.end();
 });
 

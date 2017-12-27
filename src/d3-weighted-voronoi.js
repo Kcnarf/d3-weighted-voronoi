@@ -1,5 +1,5 @@
-import {extent} from 'd3-array';
-import {polygonHull} from 'd3-polygon';
+import {extent as d3Extent} from 'd3-array';
+import {polygonHull as d3PolygonHull} from 'd3-polygon';
 import {epsilon} from './utils';
 import {Vertex} from './vertex';
 import {computePowerDiagramIntegrated} from './powerDiagram';
@@ -9,7 +9,9 @@ export function weightedVoronoi () {
   var x = function (d) { return d.x; };           // accessor to the x value
   var y = function (d) { return d.y; };           // accessor to the y value
   var weight = function (d) { return d.weight; }; // accessor to the weight
-  var clip = [[0,0], [0,1], [1,1], [1,0]]         // clipping polygon
+  var clip = [[0,0], [0,1], [1,1], [1,0]];        // clipping polygon
+  var extent = [[0,0], [1,1]];                    // extent of the clipping polygon
+  var size = [1,1]                                // [width, height] of the clipping polygon
 
   ///////////////////////
   ///////// API /////////
@@ -29,29 +31,53 @@ export function weightedVoronoi () {
 
   _weightedVoronoi.x = function (_) {
     if (!arguments.length) { return x; }
-    x = _;
 
+    x = _;
     return _weightedVoronoi;
   };
 
   _weightedVoronoi.y = function (_) {
     if (!arguments.length) { return y; }
-    y = _;
 
+    y = _;
     return _weightedVoronoi;
   };
 
   _weightedVoronoi.weight = function (_) {
     if (!arguments.length) { return weight; }
-    weight = _;
 
+    weight = _;
     return _weightedVoronoi;
   };
 
   _weightedVoronoi.clip = function (_) {
-    if (!arguments.length) { return clip; }
-    clip = polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
+    var xExtent, yExtent;
 
+    if (!arguments.length) { return clip; }
+
+    xExtent = d3Extent(_.map(function(c){ return c[0]; }));
+    yExtent = d3Extent(_.map(function(c){ return c[1]; }));
+    clip = d3PolygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
+    extent = [[xExtent[0], yExtent[0]], [xExtent[1], yExtent[1]]];
+    size = [xExtent[1]-xExtent[0], yExtent[1]-yExtent[0]];
+    return _weightedVoronoi;
+  };
+
+  _weightedVoronoi.extent = function (_) {
+    if (!arguments.length) { return extent; }
+
+    clip = [_[0], [_[0][0], _[1][1]], _[1], [_[1][0], _[0][1]]];
+    extent = _
+    size = [_[1][0]-_[0][0], _[1][1]-_[0][1]];
+    return _weightedVoronoi;
+  };
+
+  _weightedVoronoi.size = function (_) {
+    if (!arguments.length) { return size; }
+
+    clip = [[0,0], [0, _[1]], [_[0], _[1]], [_[0], 0]];
+    extent = [[0,0], _];
+    size = _;
     return _weightedVoronoi;
   };
 
@@ -65,8 +91,8 @@ export function weightedVoronoi () {
         x0, x1, y0, y1,
         boundingData = [], boundingSites = [];
 
-    xExtent = extent(clip.map(function(c){ return c[0]; }));
-    yExtent = extent(clip.map(function(c){ return c[1]; }));
+    xExtent = d3Extent(clip.map(function(c){ return c[0]; }));
+    yExtent = d3Extent(clip.map(function(c){ return c[1]; }));
     
     minX = xExtent[0];
     maxX = xExtent[1];
