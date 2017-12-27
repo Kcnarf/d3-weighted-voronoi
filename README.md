@@ -108,10 +108,27 @@ function weight(d) {
 
 <a name="weightedVoronoi_clip" href="#weightedVoronoi_clip">#</a> <i>weightedVoronoi</i>.<b>clip</b>([<i>clip</i>])
 
-If *clip* is specified, sets the clipping polygon. *clip* defines a hole-free concave polygon, and is specified as an array of 2D points \[x, y\], which must be *(i)* open (no duplication of the first D2 point) and *(ii)* counterclockwise (assuming the origin ⟨0,0⟩ is in the top-left corner). If *clip* is not specified, returns the current clipping polygon, which defaults to:
+If *clip* is specified, sets the clipping polygon, compute the adequate [*extent*](#weightedVoronoi_extent) and [*size*](#weightedVoronoi_size), and returns this layout. *clip* must define a hole-free concave polygon, and must be specified as an array of 2D points \[x, y\], which must be *(i)* open (no duplication of the first D2 point) and *(ii)* counterclockwise (assuming the origin ⟨0,0⟩ is in the top-left corner). If *clip* is not specified, returns the current clipping polygon, which defaults to:
 
 ```js
 [[0,0], [0,1], [1,1], [1,0]]
+```
+
+<a name="weightedVoronoi_extent" href="#weightedVoronoi_extent">#</a> <i>weightedVoronoi</i>.<b>extent</b>([<i>extent</i>])
+
+If *extent* is specified, it is a convenient way to define the clipping polygon as a rectangle. It sets the extent, computes the adequate [*clip*](#weightedVoronoi_clip)ping polygon and [*size*](#weightedVoronoi_size), and returns this layout. *extent* must be be an two-element array of 2D points \[x, y\], which defines the clipping polygon as a rectangle with the top-left and bottom-right corners respectively set to the first and second points (assuming the origin ⟨0,0⟩ is in the top-left corner on the screen). If *extent* is not specified, returns the current extent, which is ```[[minX, minY], [maxX, maxY]]``` of current clipping polygon, and which defaults to:
+
+```js
+[[0, 0], [1, 1]]
+```
+
+
+<a name="weightedVoronoi_size" href="#weightedVoronoi_size">#</a> <i>weightedVoronoi</i>.<b>size</b>([<i>size</i>])
+
+If *size* is specified, it is a convenient way to define the clipping polygon as a rectangle. It sets the size, computes the adequate [*clip*](#weightedVoronoi_clip)ping polygon and [*extent*](#weightedVoronoi_extent), and returns this layout. *size* must be a two-element array of numbers ```[width, height]```, which defines the clipping polygon as a rectangle with the top-left corner set to ```[0, 0]```and the bottom-right corner set to ```[width, height]```(assuming the origin ⟨0,0⟩ is in the top-left corner on the screen). If *size* is not specified, returns the current size, which is ```[maxX-minX, maxY-minY]``` of current clipping polygon, and which defaults to:
+
+```js
+[1, 1]
 ```
 
 ## Dependencies
