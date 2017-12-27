@@ -935,18 +935,14 @@
     ///////////////////////
 
     function boundingSites () {
-      var xExtent, yExtent,
-          minX, maxX, minY, maxY,
+      var minX, maxX, minY, maxY,
           x0, x1, y0, y1,
           boundingData = [], boundingSites = [];
 
-      xExtent = d3Array.extent(clip.map(function(c){ return c[0]; }));
-      yExtent = d3Array.extent(clip.map(function(c){ return c[1]; }));
-      
-      minX = xExtent[0];
-      maxX = xExtent[1];
-      minY = yExtent[0];
-      maxY = yExtent[1];
+      minX = extent[0][0];
+      maxX = extent[1][0];
+      minY = extent[0][1];
+      maxY = extent[1][1];
       x0 = minX - maxX;
       x1 = 2 * maxX;
       y0 = minY - maxY;
