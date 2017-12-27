@@ -62,7 +62,7 @@ d3.selectAll('path')
 ## API
 <a name="weightedVoronoi" href="#weightedVoronoi">#</a> d3.<b>weightedVoronoi</b>()
 
-Creates a new weightedVoronoi with the default [*x*-](#weightedVoronoi_x), [*y*-](#weightedVoronoi_y), [*weight*-](#weightedVoronoi_weight) accessors, and [*clip*](#weightedVoronoi_clip) configuration value.
+Creates a new weightedVoronoi with the default [*x*-](#weightedVoronoi_x), [*y*-](#weightedVoronoi_y), [*weight*-](#weightedVoronoi_weight) accessors, and [*clip*](#weightedVoronoi_clip), [*extent*](#weightedVoronoi_extent), [*size*](#weightedVoronoi_size) configuration values.
 
 <a name="_weightedVoronoi" href="#_weightedVoronoi">#</a> <i>weightedVoronoi</i>(<i>data</i>)
 
@@ -116,7 +116,7 @@ If *clip* is specified, sets the clipping polygon, compute the adequate [*extent
 
 <a name="weightedVoronoi_extent" href="#weightedVoronoi_extent">#</a> <i>weightedVoronoi</i>.<b>extent</b>([<i>extent</i>])
 
-If *extent* is specified, it is a convenient way to define the clipping polygon as a rectangle. It sets the extent, computes the adequate [*clip*](#weightedVoronoi_clip)ping polygon and [*size*](#weightedVoronoi_size), and returns this layout. *extent* must be be an two-element array of 2D points \[x, y\], which defines the clipping polygon as a rectangle with the top-left and bottom-right corners respectively set to the first and second points (assuming the origin ⟨0,0⟩ is in the top-left corner on the screen). If *extent* is not specified, returns the current extent, which is ```[[minX, minY], [maxX, maxY]]``` of current clipping polygon, and which defaults to:
+If *extent* is specified, it is a convenient way to define the clipping polygon as a rectangle. It sets the extent, computes the adequate [*clip*](#weightedVoronoi_clip)ping polygon and [*size*](#weightedVoronoi_size), and returns this layout. *extent* must be a two-element array of 2D points \[x, y\], which defines the clipping polygon as a rectangle with the top-left and bottom-right corners respectively set to the first and second points (assuming the origin ⟨0,0⟩ is in the top-left corner on the screen). If *extent* is not specified, returns the current extent, which is ```[[minX, minY], [maxX, maxY]]``` of current clipping polygon, and which defaults to:
 
 ```js
 [[0, 0], [1, 1]]
