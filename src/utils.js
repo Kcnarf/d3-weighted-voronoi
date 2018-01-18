@@ -10,34 +10,9 @@ export function dot (v0, v1) {
   return (v0.x * v1.x) + (v0.y * v1.y) + (v0.z * v1.z); 
 }
 
-// IN: two vertex objects, p0 and p1
+// IN: two vertex objects, v0 and v1
 // OUT: true if they are linearly dependent, false otherwise
-export function linearDependent (p0, p1) {
-  if (p0.x == 0 && p1.x == 0) {
-    if (p0.y == 0 && p1.y == 0) {
-      if (p0.z == 0 && p1.z == 0) {
-        return true;
-      }
-      if (p0.z == 0 || p1.z == 0) {
-        return false;
-      }
-      return true;
-    }
-    if (p0.y == 0 || p1.y == 0) {
-      return false;
-    }
-    if (epsilonesque(p0.z/p0.y - p1.z/p1.y)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  if (p0.x == 0 || p1.x == 0) {
-    return false;
-  }
-  if (epsilonesque(p0.y/p0.x - p1.y/p1.x) && epsilonesque(p0.z/p0.x - p1.z/p1.x)) {
-    return true;
-  } else {
-    return false;
-  }
+// from https://math.stackexchange.com/questions/1144357/how-can-i-prove-that-two-vectors-in-%E2%84%9D3-are-linearly-independent-iff-their-cro
+export function linearDependent (v0, v1) {
+  return epsilonesque(v0.x*v1.y - v0.y*v1.x) && epsilonesque(v0.y*v1.z - v0.z*v1.y) && epsilonesque(v0.z*v1.x - v0.x*v1.z);
 }
