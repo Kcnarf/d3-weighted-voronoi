@@ -1,6 +1,6 @@
 {
   "name": "d3-weighted-voronoi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "D3 plugin which computes a Weighted Voronoi tesselation",
   "keywords": [
     "d3",
@@ -10,7 +10,7 @@
     "diagram",
     "tesselation"
   ],
-  "license": "GPL-3.0",
+  "license": "BSD-3-Clause",
   "author": " Kcnarf <fl.franck.lebeau@gmail.com>",
   "main": "build/d3-weighted-voronoi.js",
   "jsnext:main": "index",
