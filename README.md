@@ -45,13 +45,12 @@ In your javascript, in order to define the tessellation:
 
 ```javascript
 var weightedVoronoi = d3.weightedVoronoi()
-  .x(function(d){ return xScale(d); }                   // set the x coordinate accessor
-  .y(function(d){ return yScale(d); }                   // set the y coordinate accessor
-  .weight(function(d){ return weightScale(d); }         // set the weight accessor
-  .clip([0,0], [0,height], [width, height], [width,0])  // set the clipping polygon
+  .x(function(d){ return xScale(d); }                     // set the x coordinate accessor
+  .y(function(d){ return yScale(d); }                     // set the y coordinate accessor
+  .weight(function(d){ return weightScale(d); }           // set the weight accessor
+  .clip([[0,0], [0,height], [width, height], [width,0]])  // set the clipping polygon
 
-var cells = weightedVoronoi(data);                      // compute the weighted Voronoi tessellation
-
+var cells = weightedVoronoi(data);                        // compute the weighted Voronoi tessellation
 ```
 
 Then, later in your javascript, in order to draw cells:
