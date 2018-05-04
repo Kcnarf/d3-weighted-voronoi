@@ -4,7 +4,7 @@
   (factory((global.d3 = global.d3 || {}),global.d3,global.d3));
 }(this, function (exports,d3Array,d3Polygon) { 'use strict';
 
-  var epsilon = 1E-10;
+  var epsilon = 1e-10;
 
   function epsilonesque(n) {
     return n <= epsilon && n >= -epsilon;
@@ -12,15 +12,65 @@
 
   // IN: vectors or vertices
   // OUT: dot product
-  function dot (v0, v1) {
-    return (v0.x * v1.x) + (v0.y * v1.y) + (v0.z * v1.z); 
+  function dot(v0, v1) {
+    return v0.x * v1.x + v0.y * v1.y + v0.z * v1.z;
   }
 
   // IN: two vertex objects, v0 and v1
   // OUT: true if they are linearly dependent, false otherwise
   // from https://math.stackexchange.com/questions/1144357/how-can-i-prove-that-two-vectors-in-%E2%84%9D3-are-linearly-independent-iff-their-cro
-  function linearDependent (v0, v1) {
-    return epsilonesque(v0.x*v1.y - v0.y*v1.x) && epsilonesque(v0.y*v1.z - v0.z*v1.y) && epsilonesque(v0.z*v1.x - v0.x*v1.z);
+  function linearDependent(v0, v1) {
+    return (
+      epsilonesque(v0.x * v1.y - v0.y * v1.x) &&
+      epsilonesque(v0.y * v1.z - v0.z * v1.y) &&
+      epsilonesque(v0.z * v1.x - v0.x * v1.z)
+    );
+  }
+
+  // IN: an array of 2D-points [x,y]
+  // OUT: true if the set defines a convex polygon (non-intersecting, hole-free, non-concave)
+  // from https://gist.github.com/annatomka/82715127b74473859054, adapted to [x,y] syntax (instead of {x: ..., y: ...}) and optimizations
+  function polygonDirection(polygon) {
+    var direction, sign, crossproduct, p0, p1, p2, v0, v1, i;
+
+    //begin: initialization
+    p0 = polygon[polygon.length - 2];
+    p1 = polygon[polygon.length - 1];
+    p2 = polygon[0];
+    v0 = [p1[0] - p0[0], p1[1] - p0[1]];
+    v1 = [p2[0] - p1[0], p2[1] - p1[1]];
+    crossproduct = calculateCrossproduct(v0, v1);
+    sign = Math.sign(crossproduct);
+    //end: initialization
+
+    p0 = p1; // p0 = polygon[polygon.length - 1];
+    p1 = p2; // p1 = polygon[0];
+    p2 = polygon[1];
+    v0 = v1;
+    v1 = [p2[0] - p1[0], p2[1] - p1[0]];
+    crossproduct = calculateCrossproduct(v0, v1);
+    if (Math.sign(crossproduct) !== sign) {
+      return undefined;
+    } //different signs in cross products means concave polygon
+
+    //iterate on remaining 3 consecutive points
+    for (i = 2; i < polygon.length - 1; i++) {
+      p0 = p1;
+      p1 = p2;
+      p2 = polygon[i];
+      v0 = v1;
+      v1 = [p2[0] - p1[0], p2[1] - p1[1]];
+      crossproduct = calculateCrossproduct(v0, v1);
+      if (Math.sign(crossproduct) !== sign) {
+        return undefined;
+      } //different signs in cross products means concave polygon
+    }
+
+    return sign;
+  }
+
+  function calculateCrossproduct(v0, v1) {
+    return v0[0] * v1[1] - v0[1] * v1[0];
   }
 
   // ConflictList and ConflictListNode
@@ -828,79 +878,112 @@
     return polygons;
   }
 
-  function weightedVoronoi () {
+  function weightedVoronoi() {
     /////// Inputs ///////
-    var x = function (d) { return d.x; };           // accessor to the x value
-    var y = function (d) { return d.y; };           // accessor to the y value
-    var weight = function (d) { return d.weight; }; // accessor to the weight
-    var clip = [[0,0], [0,1], [1,1], [1,0]];        // clipping polygon
-    var extent = [[0,0], [1,1]];                    // extent of the clipping polygon
-    var size = [1,1]                                // [width, height] of the clipping polygon
+    var x = function(d) {
+      return d.x;
+    }; // accessor to the x value
+    var y = function(d) {
+      return d.y;
+    }; // accessor to the y value
+    var weight = function(d) {
+      return d.weight;
+    }; // accessor to the weight
+    var clip = [[0, 0], [0, 1], [1, 1], [1, 0]]; // clipping polygon
+    var extent = [[0, 0], [1, 1]]; // extent of the clipping polygon
+    var size = [1, 1]; // [width, height] of the clipping polygon
 
     ///////////////////////
     ///////// API /////////
     ///////////////////////
 
-    function _weightedVoronoi (data) {
+    function _weightedVoronoi(data) {
       var formatedSites;
 
       //begin: map sites to the expected format of PowerDiagram
       formatedSites = data.map(function(d) {
         return new Vertex(x(d), y(d), null, weight(d), d, false);
-      })
+      });
       //end: map sites to the expected format of PowerDiagram
 
       return computePowerDiagramIntegrated(formatedSites, boundingSites(), clip);
     }
 
-    _weightedVoronoi.x = function (_) {
-      if (!arguments.length) { return x; }
+    _weightedVoronoi.x = function(_) {
+      if (!arguments.length) {
+        return x;
+      }
 
       x = _;
       return _weightedVoronoi;
     };
 
-    _weightedVoronoi.y = function (_) {
-      if (!arguments.length) { return y; }
+    _weightedVoronoi.y = function(_) {
+      if (!arguments.length) {
+        return y;
+      }
 
       y = _;
       return _weightedVoronoi;
     };
 
-    _weightedVoronoi.weight = function (_) {
-      if (!arguments.length) { return weight; }
+    _weightedVoronoi.weight = function(_) {
+      if (!arguments.length) {
+        return weight;
+      }
 
       weight = _;
       return _weightedVoronoi;
     };
 
-    _weightedVoronoi.clip = function (_) {
-      var xExtent, yExtent;
+    _weightedVoronoi.clip = function(_) {
+      var direction, xExtent, yExtent;
 
-      if (!arguments.length) { return clip; }
+      if (!arguments.length) {
+        return clip;
+      }
 
-      xExtent = d3Array.extent(_.map(function(c){ return c[0]; }));
-      yExtent = d3Array.extent(_.map(function(c){ return c[1]; }));
-      clip = d3Polygon.polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
+      xExtent = d3Array.extent(
+        _.map(function(c) {
+          return c[0];
+        })
+      );
+      yExtent = d3Array.extent(
+        _.map(function(c) {
+          return c[1];
+        })
+      );
+      direction = polygonDirection(_);
+      if (direction === undefined) {
+        clip = d3Polygon.polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
+      } else if (direction === -1) {
+        clip = _.reverse(); // already convex, make it counterclockwise
+      } else {
+        clip = _; // everything is ok
+      }
       extent = [[xExtent[0], yExtent[0]], [xExtent[1], yExtent[1]]];
-      size = [xExtent[1]-xExtent[0], yExtent[1]-yExtent[0]];
+      size = [xExtent[1] - xExtent[0], yExtent[1] - yExtent[0]];
       return _weightedVoronoi;
     };
 
-    _weightedVoronoi.extent = function (_) {
-      if (!arguments.length) { return extent; }
+    _weightedVoronoi.extent = function(_) {
+      if (!arguments.length) {
+        return extent;
+      }
 
       clip = [_[0], [_[0][0], _[1][1]], _[1], [_[1][0], _[0][1]]];
-      extent = _
-      size = [_[1][0]-_[0][0], _[1][1]-_[0][1]];
+      extent = _;
+      size = [_[1][0] - _[0][0], _[1][1] - _[0][1]];
       return _weightedVoronoi;
     };
 
-    _weightedVoronoi.size = function (_) {
-      if (!arguments.length) { return size; }
+    _weightedVoronoi.size = function(_) {
+      if (!arguments.length) {
+        return size;
+      }
 
-      clip = [[0,0], [0, _[1]], [_[0], _[1]], [_[0], 0]];
-      extent = [[0,0], _];
+      clip = [[0, 0], [0, _[1]], [_[0], _[1]], [_[0], 0]];
+      extent = [[0, 0], _];
       size = _;
       return _weightedVoronoi;
     };
@@ -909,10 +992,17 @@
     /////// Private ///////
     ///////////////////////
 
-    function boundingSites () {
-      var minX, maxX, minY, maxY,
-          x0, x1, y0, y1,
-          boundingData = [], boundingSites = [];
+    function boundingSites() {
+      var minX,
+        maxX,
+        minY,
+        maxY,
+        x0,
+        x1,
+        y0,
+        y1,
+        boundingData = [],
+        boundingSites = [];
 
       minX = extent[0][0];
       maxX = extent[1][0];
@@ -930,9 +1020,18 @@
       boundingData[1] = [x0, y1];
       boundingData[2] = [x1, y1];
       boundingData[3] = [x1, y0];
-      
-      for (var i = 0; i < 4; i++){
-        boundingSites.push( new Vertex(boundingData[i][0], boundingData[i][1], null, epsilon, new Vertex(boundingData[i][0], boundingData[i][1], null, epsilon, null, true), true));
+
+      for (var i = 0; i < 4; i++) {
+        boundingSites.push(
+          new Vertex(
+            boundingData[i][0],
+            boundingData[i][1],
+            null,
+            epsilon,
+            new Vertex(boundingData[i][0], boundingData[i][1], null, epsilon, null, true),
+            true
+          )
+        );
       }
 
       return boundingSites;
