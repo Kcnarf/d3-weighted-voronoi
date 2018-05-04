@@ -59,10 +59,10 @@ tape('weightedVoronoi.weight(...) should set the specified weight-accessor', fun
 tape('weightedVoronoi.clip(...)', function(test) {
   test.test('weightedVoronoi.clip(...) should set adequate clipping polygon, extent and size', function(test) {
     var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
-      newClip = [[1, 0], [2, 1], [1, 2], [0, 1]]; // diamond
+      newClip = [[1, 0], [0, 1], [1, 2], [2, 1]]; // diamond
 
     test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
-    test.deepEqual(weightedVoronoi.clip(), [[1, 0], [2, 1], [1, 2], [0, 1]]);
+    test.deepEqual(weightedVoronoi.clip(), [[1, 0], [0, 1], [1, 2], [2, 1]]);
     test.deepEqual(weightedVoronoi.extent(), [[0, 0], [2, 2]]);
     test.deepEqual(weightedVoronoi.size(), [2, 2]);
     test.end();
@@ -72,10 +72,10 @@ tape('weightedVoronoi.clip(...)', function(test) {
     'weightedVoronoi.clip(...) should set the adequate _counterclockwise_ clipping polygon, extent and size',
     function(test) {
       var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi(),
-        newClip = [[1, 0], [0, 1], [1, 2], [2, 1]]; // inversed-diamond
+        newClip = [[1, 0], [2, 1], [1, 2], [0, 1]]; // clockwise diamond
 
       test.equal(weightedVoronoi.clip(newClip), weightedVoronoi);
-      test.deepEqual(weightedVoronoi.clip(), [[2, 1], [1, 2], [0, 1], [1, 0]]);
+      test.deepEqual(weightedVoronoi.clip(), [[0, 1], [1, 2], [2, 1], [1, 0]]);
       test.deepEqual(weightedVoronoi.extent(), [[0, 0], [2, 2]]);
       test.deepEqual(weightedVoronoi.size(), [2, 2]);
       test.end();

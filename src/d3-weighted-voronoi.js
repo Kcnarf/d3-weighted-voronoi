@@ -82,7 +82,7 @@ export function weightedVoronoi() {
     direction = polygonDirection(_);
     if (direction === undefined) {
       clip = d3PolygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
-    } else if (direction === -1) {
+    } else if (direction === 1) {
       clip = _.reverse(); // already convex, make it counterclockwise
     } else {
       clip = _; // everything is ok

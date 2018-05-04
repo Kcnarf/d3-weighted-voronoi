@@ -40,6 +40,7 @@
     v0 = [p1[0] - p0[0], p1[1] - p0[1]];
     v1 = [p2[0] - p1[0], p2[1] - p1[1]];
     crossproduct = calculateCrossproduct(v0, v1);
+    // console.log(`[[${p0}], [${p1}], [${p2}]] => (${v0}) x (${v1}) = ${crossproduct}`);
     sign = Math.sign(crossproduct);
     //end: initialization
 
@@ -47,8 +48,9 @@
     p1 = p2; // p1 = polygon[0];
     p2 = polygon[1];
     v0 = v1;
-    v1 = [p2[0] - p1[0], p2[1] - p1[0]];
+    v1 = [p2[0] - p1[0], p2[1] - p1[1]];
     crossproduct = calculateCrossproduct(v0, v1);
+    // console.log(`[[${p0}], [${p1}], [${p2}]] => (${v0}) x (${v1}) = ${crossproduct}`);
     if (Math.sign(crossproduct) !== sign) {
       return undefined;
     } //different signs in cross products means concave polygon
@@ -61,6 +63,7 @@
       v0 = v1;
       v1 = [p2[0] - p1[0], p2[1] - p1[1]];
       crossproduct = calculateCrossproduct(v0, v1);
+      // console.log(`[[${p0}], [${p1}], [${p2}]] => (${v0}) x (${v1}) = ${crossproduct}`);
       if (Math.sign(crossproduct) !== sign) {
         return undefined;
       } //different signs in cross products means concave polygon
@@ -956,7 +959,7 @@
       direction = polygonDirection(_);
       if (direction === undefined) {
         clip = d3Polygon.polygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
-      } else if (direction === -1) {
+      } else if (direction === 1) {
         clip = _.reverse(); // already convex, make it counterclockwise
       } else {
         clip = _; // everything is ok
