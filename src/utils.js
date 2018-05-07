@@ -31,8 +31,8 @@ export function polygonDirection(polygon) {
   p0 = polygon[polygon.length - 2];
   p1 = polygon[polygon.length - 1];
   p2 = polygon[0];
-  v0 = [p1[0] - p0[0], p1[1] - p0[1]];
-  v1 = [p2[0] - p1[0], p2[1] - p1[1]];
+  v0 = vect(p0, p1);
+  v1 = vect(p1, p2);
   crossproduct = calculateCrossproduct(v0, v1);
   // console.log(`[[${p0}], [${p1}], [${p2}]] => (${v0}) x (${v1}) = ${crossproduct}`);
   sign = Math.sign(crossproduct);
@@ -42,7 +42,7 @@ export function polygonDirection(polygon) {
   p1 = p2; // p1 = polygon[0];
   p2 = polygon[1];
   v0 = v1;
-  v1 = [p2[0] - p1[0], p2[1] - p1[1]];
+  v1 = vect(p1, p2);
   crossproduct = calculateCrossproduct(v0, v1);
   // console.log(`[[${p0}], [${p1}], [${p2}]] => (${v0}) x (${v1}) = ${crossproduct}`);
   if (Math.sign(crossproduct) !== sign) {
@@ -55,7 +55,7 @@ export function polygonDirection(polygon) {
     p1 = p2;
     p2 = polygon[i];
     v0 = v1;
-    v1 = [p2[0] - p1[0], p2[1] - p1[1]];
+    v1 = vect(p1, p2);
     crossproduct = calculateCrossproduct(v0, v1);
     // console.log(`[[${p0}], [${p1}], [${p2}]] => (${v0}) x (${v1}) = ${crossproduct}`);
     if (Math.sign(crossproduct) !== sign) {
@@ -64,6 +64,10 @@ export function polygonDirection(polygon) {
   }
 
   return sign;
+}
+
+function vect(from, to) {
+  return [to[0] - from[0], to[1] - from[1]];
 }
 
 function calculateCrossproduct(v0, v1) {

@@ -83,9 +83,9 @@ export function weightedVoronoi() {
     if (direction === undefined) {
       clip = d3PolygonHull(_); // ensure clip to be a convex, hole-free, counterclockwise polygon
     } else if (direction === 1) {
-      clip = _.reverse(); // already convex, make it counterclockwise
+      clip = _.reverse(); // already convex, order array in the same direction as d3-polygon.polygonHull(...)
     } else {
-      clip = _; // everything is ok
+      clip = _;
     }
     extent = [[xExtent[0], yExtent[0]], [xExtent[1], yExtent[1]]];
     size = [xExtent[1] - xExtent[0], yExtent[1] - yExtent[0]];
