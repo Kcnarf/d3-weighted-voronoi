@@ -18,14 +18,14 @@ Weighted Voronoï diagrams come in severall flavours (additive/multiplicative, p
 
 Nonetheless, weighted Voronoï diagrams may have weird properties compared to _default_ Voronoï diagrams:
 
-* a site may be outside it's zone of influence (ie. computed polygon)
-* a site may have no zone of influence
+- a site may be outside it's zone of influence (ie. computed polygon)
+- a site may have no zone of influence
 
 These situations arise when some sites are overweighted by others. You can experiment it in [Voronoï playground : interactive weighted Voronoï study](http://bl.ocks.org/Kcnarf/dacd1d9d2f0e69cf93c68ecf32f7896d).
 
 ## Examples
 
-* [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39)
+- [Voronoï playground : interactive Voronoï transitioning thanks to weighted Voronoï](http://bl.ocks.org/Kcnarf/7d7f60ef86a77851c38c51904f4c8d39)
 
 ## Installing
 
@@ -33,10 +33,16 @@ If you use NPM, `npm install d3-weighted-voronoi`. Otherwise, load `https://rawg
 
 ```html
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://raw.githack.com/Kcnarf/d3-weighted-voronoi/master/build/d3-weighted-voronoi.js"></script>
+<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.0/build/d3-weighted-voronoi.js"></script>
 <script>
   var weightedVoronoi = d3.weightedVoronoi();
 </script>
+```
+
+If you're interested in the latest developments, you can use the master build, available throught:
+
+```html
+<script src="https://raw.githack.com/Kcnarf/d3-weighted-voronoi/master/build/d3-weighted-voronoi.js"></script>
 ```
 
 ## TL;DR;
@@ -56,8 +62,7 @@ var cells = weightedVoronoi(data);                        // compute the weighte
 Then, later in your javascript, in order to draw cells:
 
 ```javascript
-d3
-  .selectAll('path')
+d3.selectAll('path')
   .data(cells)
   .enter()
   .append('path')
@@ -68,8 +73,8 @@ d3
 
 ## Reference
 
-* [Computing Voronoi Treemaps - Faster, Simpler, and Resolution-independent ](https://www.uni-konstanz.de/mmsp/pubsys/publishedFiles/NoBr12a.pdf), section 4.4
-* (part of) [https://github.com/ArlindNocaj/power-voronoi-diagram](https://github.com/ArlindNocaj/power-voronoi-diagram) for a Java implementation
+- [Computing Voronoi Treemaps - Faster, Simpler, and Resolution-independent ](https://www.uni-konstanz.de/mmsp/pubsys/publishedFiles/NoBr12a.pdf), section 4.4
+- (part of) [https://github.com/ArlindNocaj/power-voronoi-diagram](https://github.com/ArlindNocaj/power-voronoi-diagram) for a Java implementation
 
 ## API
 
@@ -85,8 +90,8 @@ Returns a sparse array of polygons clipped to the [_clip_](#weightedVoronoi_clip
 
 Note that weighted Voronoï diagrams may have weird properties compared to _default_ Voronoï diagrams:
 
-* a site may be outside it's zone of influence (ie. computed polygon)
-* a site may have no zone of influence
+- a site may be outside it's zone of influence (ie. computed polygon)
+- a site may have no zone of influence
 
 These situations arise when some sites are overweighted by others. You can experiment it in [Voronoï playground : interactive weighted Voronoï study](http://bl.ocks.org/Kcnarf/dacd1d9d2f0e69cf93c68ecf32f7896d).
 
@@ -146,8 +151,8 @@ If _size_ is specified, it is a convenient way to define the clipping polygon as
 
 ## Dependencies
 
-* d3-array.extent
-* d3-polygon.{polygonHull, polygonLenght}
+- d3-array.extent
+- d3-polygon.{polygonHull, polygonLenght}
 
 ## Testing
 
