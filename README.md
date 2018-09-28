@@ -14,7 +14,7 @@ this plugin is one of the core features of the [d3-voronoi-map](https://github.c
 
 Compared to the _default_ Voronoï diagram, it adds the capability to assign a particular weight to each site. The higher is the weight of a site, the more this site influences its environment, and the larger is its surrounding area.
 
-Weighted Voronoï diagrams come in severall flavours (additive/multiplicative, powered/not-powered, 2D/3D and higher dimensions, ..., cf. [Wikipedia](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)). This plugin focuses on the **2D additive weighted power diagram**, which provides a tessellation made of concave hole-free polygons/cells with straight borders, as the default Voronoï diagram does.
+Weighted Voronoï diagrams come in severall flavours (additive/multiplicative, powered/not-powered, 2D/3D and higher dimensions, ..., cf. [Wikipedia](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)). This plugin focuses on the **2D additive weighted power diagram**, which provides a tessellation made of convex hole-free polygons/cells with straight borders, as the default Voronoï diagram does.
 
 Nonetheless, weighted Voronoï diagrams may have weird properties compared to _default_ Voronoï diagrams:
 
