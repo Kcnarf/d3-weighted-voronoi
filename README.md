@@ -154,6 +154,11 @@ If _size_ is specified, it is a convenient way to define the clipping polygon as
 - d3-array.extent
 - d3-polygon.{polygonHull, polygonLenght}
 
+## Semantic Versioning
+
+d3-wieghted-voronoi attempts to follow [semantic versioning](https://semver.org) and
+bump major version only when backwards incompatible changes are released.
+
 ## Testing
 
 In order to test the code
