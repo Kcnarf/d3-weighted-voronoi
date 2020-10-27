@@ -1,6 +1,6 @@
 {
   "name": "d3-weighted-voronoi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "D3 plugin which computes a Weighted Voronoi tesselation",
   "keywords": [
     "d3",

@@ -29,11 +29,11 @@ These situations arise when some sites are overweighted by others. You can exper
 
 ## Installing
 
-If you use NPM, `npm install d3-weighted-voronoi`. Otherwise, load `https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.0/build/d3-weighted-voronoi.js` (or its `d3-weighted-voronoi.min.js` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
+If you use NPM, `npm install d3-weighted-voronoi`. Otherwise, load `https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.2/build/d3-weighted-voronoi.js` (or its `d3-weighted-voronoi.min.js` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
 
 ```html
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.0/build/d3-weighted-voronoi.js"></script>
+<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.0.2/build/d3-weighted-voronoi.js"></script>
 <script>
   var weightedVoronoi = d3.weightedVoronoi();
 </script>
@@ -66,7 +66,7 @@ d3.selectAll('path')
   .data(cells)
   .enter()
   .append('path')
-  .attr('d', function(d) {
+  .attr('d', function (d) {
     return cellLiner(d) + 'z';
   });
 ```
@@ -130,7 +130,12 @@ function weight(d) {
 If _clip_ is specified, sets the clipping polygon, compute the adequate [_extent_](#weightedVoronoi_extent) and [_size_](#weightedVoronoi_size), and returns this layout. _clip_ must define a hole-free concave polygon, and must be specified as an array of 2D points \[x, y\], which must be _(i)_ open (no duplication of the first D2 point) and _(ii)_ counterclockwise (assuming the origin ⟨0,0⟩ is in the top-left corner). If _clip_ is not specified, returns the current clipping polygon, which defaults to:
 
 ```js
-[[0, 0], [0, 1], [1, 1], [1, 0]];
+[
+  [0, 0],
+  [0, 1],
+  [1, 1],
+  [1, 0],
+];
 ```
 
 <a name="weightedVoronoi_extent" href="#weightedVoronoi_extent">#</a> <i>weightedVoronoi</i>.<b>extent</b>([<i>extent</i>])
@@ -138,7 +143,10 @@ If _clip_ is specified, sets the clipping polygon, compute the adequate [_extent
 If _extent_ is specified, it is a convenient way to define the clipping polygon as a rectangle. It sets the extent, computes the adequate [_clip_](#weightedVoronoi_clip)ping polygon and [_size_](#weightedVoronoi_size), and returns this layout. _extent_ must be a two-element array of 2D points \[x, y\], which defines the clipping polygon as a rectangle with the top-left and bottom-right corners respectively set to the first and second points (assuming the origin ⟨0,0⟩ is in the top-left corner on the screen). If _extent_ is not specified, returns the current extent, which is `[[minX, minY], [maxX, maxY]]` of current clipping polygon, and which defaults to:
 
 ```js
-[[0, 0], [1, 1]];
+[
+  [0, 0],
+  [1, 1],
+];
 ```
 
 <a name="weightedVoronoi_size" href="#weightedVoronoi_size">#</a> <i>weightedVoronoi</i>.<b>size</b>([<i>size</i>])
