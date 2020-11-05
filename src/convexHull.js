@@ -1,10 +1,11 @@
 // convexHull.js
-import {epsilon, dot, linearDependent} from './utils';
-import {ConflictList, ConflictListNode} from './conflictList';
-import {Vertex} from './Vertex';
-import {Face} from './face';
+import { dot, linearDependent } from './utils';
+import { ConflictList, ConflictListNode } from './conflictList';
+import { Vertex } from './Vertex';
+import { Face } from './face';
+import d3WeightedVoronoiError from './d3-weighted-voronoi-error';
 
-export function ConvexHull () {
+export function ConvexHull() {
   this.points = [];
   this.facets = [];
   this.created = [];
@@ -14,17 +15,17 @@ export function ConvexHull () {
 }
 
 // IN: sites (x,y,z)
-ConvexHull.prototype.init = function(boundingSites, sites) {
+ConvexHull.prototype.init = function (boundingSites, sites) {
   this.points = [];
   for (var i = 0; i < sites.length; i++) {
     this.points[i] = new Vertex(sites[i].x, sites[i].y, sites[i].z, null, sites[i], false);
   }
   this.points = this.points.concat(boundingSites);
-}
+};
 
-ConvexHull.prototype.permutate = function() {
+ConvexHull.prototype.permutate = function () {
   var pointSize = this.points.length;
-  for (var i = pointSize -1; i > 0; i--) {
+  for (var i = pointSize - 1; i > 0; i--) {
     var ra = Math.floor(Math.random() * i);
     var temp = this.points[ra];
     temp.index = i;
@@ -33,11 +34,11 @@ ConvexHull.prototype.permutate = function() {
     this.points.splice(ra, 1, currentItem);
     this.points.splice(i, 1, temp);
   }
-}
+};
 
-ConvexHull.prototype.prep = function() {
+(ConvexHull.prototype.prep = function () {
   if (this.points.length <= 3) {
-    console.log("ERROR: Less than 4 points");
+    throw new d3WeightedVoronoiError('Less than 4 points');
   }
   for (var i = 0; i < this.points.length; i++) {
     this.points[i].index = i;
@@ -60,7 +61,7 @@ ConvexHull.prototype.prep = function() {
     }
   }
   if (v2 === null) {
-    console.log("ERROR: v2 is null");
+    throw new d3WeightedVoronoiError('v2 is null');
   }
 
   f0 = new Face(v0, v1, v2);
@@ -75,7 +76,7 @@ ConvexHull.prototype.prep = function() {
     }
   }
   if (v3 === null) {
-    console.log("ERROR: v3 is null");
+    throw new d3WeightedVoronoiError('v3 is null');
   }
 
   f0.orient(v3);
@@ -108,59 +109,57 @@ ConvexHull.prototype.prep = function() {
       this.addConflict(f2, v);
     }
     if (f3.conflict(v)) {
-      this.addConflict(f3,v);
+      this.addConflict(f3, v);
     }
   }
-},
-
-// IN: Faces old1 old2 and fn
-ConvexHull.prototype.addConflicts = function(old1, old2, fn) {
-  var l1 = old1.conflicts.getVertices();
-  var l2 = old2.conflicts.getVertices();
-  var nCL = [];
-  var v1, v2;
-  var i, l;
-  i = l = 0;
-  // Fill the possible new Conflict List
-  while (i < l1.length || l < l2.length) {
-    if (i < l1.length && l < l2.length) {
-      v1 = l1[i];
-      v2 = l2[l];
-      // If the index is the same, it's the same vertex and only 1 has to be added
-      if (v1.index === v2.index) {
-        nCL.push(v1);
-        i++;
-        l++;
-      } else if (v1.index > v2.index) {
-        nCL.push(v1);
-        i++;
+}),
+  // IN: Faces old1 old2 and fn
+  (ConvexHull.prototype.addConflicts = function (old1, old2, fn) {
+    var l1 = old1.conflicts.getVertices();
+    var l2 = old2.conflicts.getVertices();
+    var nCL = [];
+    var v1, v2;
+    var i, l;
+    i = l = 0;
+    // Fill the possible new Conflict List
+    while (i < l1.length || l < l2.length) {
+      if (i < l1.length && l < l2.length) {
+        v1 = l1[i];
+        v2 = l2[l];
+        // If the index is the same, it's the same vertex and only 1 has to be added
+        if (v1.index === v2.index) {
+          nCL.push(v1);
+          i++;
+          l++;
+        } else if (v1.index > v2.index) {
+          nCL.push(v1);
+          i++;
+        } else {
+          nCL.push(v2);
+          l++;
+        }
+      } else if (i < l1.length) {
+        nCL.push(l1[i++]);
       } else {
-        nCL.push(v2);
-        l++;
+        nCL.push(l2[l++]);
       }
-    } else if ( i < l1.length) {
-      nCL.push(l1[i++]);
-    } else {
-      nCL.push(l2[l++]);
     }
-  }
-  // Check if the possible conflicts are real conflicts
-  for (var i = nCL.length - 1; i >= 0; i--) {
-    v1 = nCL[i];
-    if (fn.conflict(v1))
-      this.addConflict(fn, v1);
-  }
-}
+    // Check if the possible conflicts are real conflicts
+    for (var i = nCL.length - 1; i >= 0; i--) {
+      v1 = nCL[i];
+      if (fn.conflict(v1)) this.addConflict(fn, v1);
+    }
+  });
 
 // IN: Face face, Vertex v
-ConvexHull.prototype.addConflict = function(face, vert) {
+ConvexHull.prototype.addConflict = function (face, vert) {
   var e = new ConflictListNode(face, vert);
   face.conflicts.add(e);
   vert.conflicts.add(e);
-}
+};
 
 // IN: Face f
-ConvexHull.prototype.removeConflict = function(f) {
+ConvexHull.prototype.removeConflict = function (f) {
   f.removeConflict();
   var index = f.index;
   f.index = -1;
@@ -168,28 +167,28 @@ ConvexHull.prototype.removeConflict = function(f) {
     this.facets.splice(this.facets.length - 1, 1);
     return;
   }
-  if (index >= this.facets.length || index < 0)
-    return;
+  if (index >= this.facets.length || index < 0) return;
   var last = this.facets.splice(this.facets.length - 1, 1);
   last[0].index = index;
   this.facets.splice(index, 1, last[0]);
-}
+};
 
 // IN: Face face
-ConvexHull.prototype.addFacet = function(face) {
+ConvexHull.prototype.addFacet = function (face) {
   face.index = this.facets.length;
   this.facets.push(face);
-}
+};
 
-ConvexHull.prototype.compute = function() {
+ConvexHull.prototype.compute = function () {
   this.prep();
   while (this.current < this.points.length) {
     var next = this.points[this.current];
-    if (next.conflicts.isEmpty()) {  // No conflict, point in hull
+    if (next.conflicts.isEmpty()) {
+      // No conflict, point in hull
       this.current++;
       continue;
     }
-    this.created = [];  // TODO: make sure this is okay and doesn't dangle references
+    this.created = []; // TODO: make sure this is okay and doesn't dangle references
     this.horizon = [];
     this.visible = [];
     // The visible faces are also marked
@@ -203,7 +202,8 @@ ConvexHull.prototype.compute = function() {
         break;
       }
     }
-    var last = null, first = null;
+    var last = null,
+      first = null;
     // Iterate over horizon edges and create new faces oriented with the marked face 3rd unused point
     for (var hEi = 0; hEi < this.horizon.length; hEi++) {
       var hE = this.horizon[hEi];
@@ -216,11 +216,9 @@ ConvexHull.prototype.compute = function() {
       this.addConflicts(hE.iFace, hE.twin.iFace, fn);
       // Link the new face with the horizon edge
       fn.link(hE);
-      if (last !== null)
-        fn.link(last, next, hE.orig);
+      if (last !== null) fn.link(last, next, hE.orig);
       last = fn;
-      if (first === null)
-        first = fn;
+      if (first === null) first = fn;
     }
     // Links the first and the last created JFace
     if (first !== null && last !== null) {
@@ -236,13 +234,13 @@ ConvexHull.prototype.compute = function() {
     }
   }
   return this.facets;
-}
+};
 
-ConvexHull.prototype.clear = function() {
+ConvexHull.prototype.clear = function () {
   this.points = [];
   this.facets = [];
   this.created = [];
   this.horizon = [];
   this.visible = [];
   this.current = 0;
-}
+};

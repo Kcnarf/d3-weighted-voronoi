@@ -383,12 +383,18 @@
     return ((this.orig.equals(origin) && this.dest.equals(dest)) || (this.orig.equals(dest) && this.dest.equals(origin)));
   }
 
+  function d3WeightedVoronoiError(message) {
+    this.message = message;
+  }
+
+  d3WeightedVoronoiError.prototype = new Error();
+
   // IN: Vertices a, b, c
-  function Face (a, b, c, orient) {
+  function Face(a, b, c, orient) {
     this.conflicts = new ConflictList(true);
     this.verts = [a, b, c];
     this.marked = false;
-    var t = (a.subtract(b)).crossproduct(b.subtract(c));
+    var t = a.subtract(b).crossproduct(b.subtract(c));
 
     this.normal = new Vector(-t.x, -t.y, -t.z);
     this.normal.normalize();
@@ -401,19 +407,19 @@
   }
 
   // OUT: Point2D
-  Face.prototype.getDualPoint = function() {
+  Face.prototype.getDualPoint = function () {
     if (this.dualPoint == null) {
       var plane3d = new Plane3D(this);
       this.dualPoint = plane3d.getDualPointMappedToPlane();
     }
     return this.dualPoint;
-  }
+  };
 
-  Face.prototype.isVisibleFromBelow = function() {
-    return (this.normal.z < -1.4259414393190911E-9);
-  }
+  Face.prototype.isVisibleFromBelow = function () {
+    return this.normal.z < -1.4259414393190911e-9;
+  };
 
-  Face.prototype.createEdges = function() {
+  Face.prototype.createEdges = function () {
     this.edges = [];
     this.edges[0] = new HEdge(this.verts[0], this.verts[1], this);
     this.edges[1] = new HEdge(this.verts[1], this.verts[2], this);
@@ -424,39 +430,39 @@
     this.edges[1].prev = this.edges[0];
     this.edges[2].next = this.edges[0];
     this.edges[2].prev = this.edges[1];
-  }
+  };
 
   // IN: vertex orient
-  Face.prototype.orient = function(orient) {
-    if (!(dot(this.normal,orient) < dot(this.normal, this.verts[0]))){
+  Face.prototype.orient = function (orient) {
+    if (!(dot(this.normal, orient) < dot(this.normal, this.verts[0]))) {
       var temp = this.verts[1];
       this.verts[1] = this.verts[2];
       this.verts[2] = temp;
       this.normal.negate();
       this.createEdges();
     }
-  }
+  };
 
   // IN: two vertices v0 and v1
-  Face.prototype.getEdge = function(v0, v1) {
+  Face.prototype.getEdge = function (v0, v1) {
     for (var i = 0; i < 3; i++) {
       if (this.edges[i].isEqual(v0, v1)) {
         return this.edges[i];
       }
     }
     return null;
-  }
+  };
 
   // IN: Face face, vertices v0 and v1
-  Face.prototype.link = function(face, v0, v1) {
+  Face.prototype.link = function (face, v0, v1) {
     if (face instanceof Face) {
       var twin = face.getEdge(v0, v1);
       if (twin === null) {
-        console.log("ERROR: when linking, twin is null");
+        throw new d3WeightedVoronoiError('when linking, twin is null');
       }
       var edge = this.getEdge(v0, v1);
       if (edge === null) {
-        console.log("ERROR: when linking, edge is null");
+        throw new d3WeightedVoronoiError('when linking, twin is null');
       }
       twin.twin = edge;
       edge.twin = twin;
@@ -466,27 +472,27 @@
       twin.twin = edge;
       edge.twin = twin;
     }
-  }
+  };
 
   // IN: vertex v
-  Face.prototype.conflict = function(v) {
-    return (dot(this.normal, v) > dot(this.normal, this.verts[0]) + epsilon);
-  }
+  Face.prototype.conflict = function (v) {
+    return dot(this.normal, v) > dot(this.normal, this.verts[0]) + epsilon;
+  };
 
-  Face.prototype.getHorizon = function() {
+  Face.prototype.getHorizon = function () {
     for (var i = 0; i < 3; i++) {
       if (this.edges[i].twin !== null && this.edges[i].twin.isHorizon()) {
         return this.edges[i];
       }
     }
     return null;
-  }
+  };
 
-  Face.prototype.removeConflict = function() {
+  Face.prototype.removeConflict = function () {
     this.conflicts.removeAll();
-  }
+  };
 
-  function ConvexHull () {
+  function ConvexHull() {
     this.points = [];
     this.facets = [];
     this.created = [];
@@ -496,17 +502,17 @@
   }
 
   // IN: sites (x,y,z)
-  ConvexHull.prototype.init = function(boundingSites, sites) {
+  ConvexHull.prototype.init = function (boundingSites, sites) {
     this.points = [];
     for (var i = 0; i < sites.length; i++) {
       this.points[i] = new Vertex$1(sites[i].x, sites[i].y, sites[i].z, null, sites[i], false);
     }
     this.points = this.points.concat(boundingSites);
-  }
+  };
 
-  ConvexHull.prototype.permutate = function() {
+  ConvexHull.prototype.permutate = function () {
     var pointSize = this.points.length;
-    for (var i = pointSize -1; i > 0; i--) {
+    for (var i = pointSize - 1; i > 0; i--) {
       var ra = Math.floor(Math.random() * i);
       var temp = this.points[ra];
       temp.index = i;
@@ -515,11 +521,11 @@
       this.points.splice(ra, 1, currentItem);
       this.points.splice(i, 1, temp);
     }
-  }
+  };
 
-  ConvexHull.prototype.prep = function() {
+  (ConvexHull.prototype.prep = function () {
     if (this.points.length <= 3) {
-      console.log("ERROR: Less than 4 points");
+      throw new d3WeightedVoronoiError('Less than 4 points');
     }
     for (var i = 0; i < this.points.length; i++) {
       this.points[i].index = i;
@@ -542,7 +548,7 @@
       }
     }
     if (v2 === null) {
-      console.log("ERROR: v2 is null");
+      throw new d3WeightedVoronoiError('v2 is null');
     }
 
     f0 = new Face(v0, v1, v2);
@@ -557,7 +563,7 @@
       }
     }
     if (v3 === null) {
-      console.log("ERROR: v3 is null");
+      throw new d3WeightedVoronoiError('v3 is null');
     }
 
     f0.orient(v3);
@@ -590,59 +596,57 @@
         this.addConflict(f2, v);
       }
       if (f3.conflict(v)) {
-        this.addConflict(f3,v);
+        this.addConflict(f3, v);
       }
     }
-  },
-
-  // IN: Faces old1 old2 and fn
-  ConvexHull.prototype.addConflicts = function(old1, old2, fn) {
-    var l1 = old1.conflicts.getVertices();
-    var l2 = old2.conflicts.getVertices();
-    var nCL = [];
-    var v1, v2;
-    var i, l;
-    i = l = 0;
-    // Fill the possible new Conflict List
-    while (i < l1.length || l < l2.length) {
-      if (i < l1.length && l < l2.length) {
-        v1 = l1[i];
-        v2 = l2[l];
-        // If the index is the same, it's the same vertex and only 1 has to be added
-        if (v1.index === v2.index) {
-          nCL.push(v1);
-          i++;
-          l++;
-        } else if (v1.index > v2.index) {
-          nCL.push(v1);
-          i++;
+  }),
+    // IN: Faces old1 old2 and fn
+    (ConvexHull.prototype.addConflicts = function (old1, old2, fn) {
+      var l1 = old1.conflicts.getVertices();
+      var l2 = old2.conflicts.getVertices();
+      var nCL = [];
+      var v1, v2;
+      var i, l;
+      i = l = 0;
+      // Fill the possible new Conflict List
+      while (i < l1.length || l < l2.length) {
+        if (i < l1.length && l < l2.length) {
+          v1 = l1[i];
+          v2 = l2[l];
+          // If the index is the same, it's the same vertex and only 1 has to be added
+          if (v1.index === v2.index) {
+            nCL.push(v1);
+            i++;
+            l++;
+          } else if (v1.index > v2.index) {
+            nCL.push(v1);
+            i++;
+          } else {
+            nCL.push(v2);
+            l++;
+          }
+        } else if (i < l1.length) {
+          nCL.push(l1[i++]);
         } else {
-          nCL.push(v2);
-          l++;
+          nCL.push(l2[l++]);
         }
-      } else if ( i < l1.length) {
-        nCL.push(l1[i++]);
-      } else {
-        nCL.push(l2[l++]);
       }
-    }
-    // Check if the possible conflicts are real conflicts
-    for (var i = nCL.length - 1; i >= 0; i--) {
-      v1 = nCL[i];
-      if (fn.conflict(v1))
-        this.addConflict(fn, v1);
-    }
-  }
+      // Check if the possible conflicts are real conflicts
+      for (var i = nCL.length - 1; i >= 0; i--) {
+        v1 = nCL[i];
+        if (fn.conflict(v1)) this.addConflict(fn, v1);
+      }
+    });
 
   // IN: Face face, Vertex v
-  ConvexHull.prototype.addConflict = function(face, vert) {
+  ConvexHull.prototype.addConflict = function (face, vert) {
     var e = new ConflictListNode(face, vert);
     face.conflicts.add(e);
     vert.conflicts.add(e);
-  }
+  };
 
   // IN: Face f
-  ConvexHull.prototype.removeConflict = function(f) {
+  ConvexHull.prototype.removeConflict = function (f) {
     f.removeConflict();
     var index = f.index;
     f.index = -1;
@@ -650,28 +654,28 @@
       this.facets.splice(this.facets.length - 1, 1);
       return;
     }
-    if (index >= this.facets.length || index < 0)
-      return;
+    if (index >= this.facets.length || index < 0) return;
     var last = this.facets.splice(this.facets.length - 1, 1);
     last[0].index = index;
     this.facets.splice(index, 1, last[0]);
-  }
+  };
 
   // IN: Face face
-  ConvexHull.prototype.addFacet = function(face) {
+  ConvexHull.prototype.addFacet = function (face) {
     face.index = this.facets.length;
     this.facets.push(face);
-  }
+  };
 
-  ConvexHull.prototype.compute = function() {
+  ConvexHull.prototype.compute = function () {
     this.prep();
     while (this.current < this.points.length) {
       var next = this.points[this.current];
-      if (next.conflicts.isEmpty()) {  // No conflict, point in hull
+      if (next.conflicts.isEmpty()) {
+        // No conflict, point in hull
         this.current++;
         continue;
       }
-      this.created = [];  // TODO: make sure this is okay and doesn't dangle references
+      this.created = []; // TODO: make sure this is okay and doesn't dangle references
       this.horizon = [];
       this.visible = [];
       // The visible faces are also marked
@@ -685,7 +689,8 @@
           break;
         }
       }
-      var last = null, first = null;
+      var last = null,
+        first = null;
       // Iterate over horizon edges and create new faces oriented with the marked face 3rd unused point
       for (var hEi = 0; hEi < this.horizon.length; hEi++) {
         var hE = this.horizon[hEi];
@@ -698,11 +703,9 @@
         this.addConflicts(hE.iFace, hE.twin.iFace, fn);
         // Link the new face with the horizon edge
         fn.link(hE);
-        if (last !== null)
-          fn.link(last, next, hE.orig);
+        if (last !== null) fn.link(last, next, hE.orig);
         last = fn;
-        if (first === null)
-          first = fn;
+        if (first === null) first = fn;
       }
       // Links the first and the last created JFace
       if (first !== null && last !== null) {
@@ -718,16 +721,16 @@
       }
     }
     return this.facets;
-  }
+  };
 
-  ConvexHull.prototype.clear = function() {
+  ConvexHull.prototype.clear = function () {
     this.points = [];
     this.facets = [];
     this.created = [];
     this.horizon = [];
     this.visible = [];
     this.current = 0;
-  }
+  };
 
   function polygonClip(clip, subject) {
     // Version 0.0.0. Copyright 2017 Mike Bostock.
