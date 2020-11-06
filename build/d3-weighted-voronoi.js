@@ -383,10 +383,15 @@
     return ((this.orig.equals(origin) && this.dest.equals(dest)) || (this.orig.equals(dest) && this.dest.equals(origin)));
   }
 
+  // from https://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-javascript
+  // (above link provided by https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)
+
   function d3WeightedVoronoiError(message) {
     this.message = message;
+    this.stack = new Error().stack;
   }
 
+  d3WeightedVoronoiError.prototype.name = 'd3WeightedVoronoiError';
   d3WeightedVoronoiError.prototype = new Error();
 
   // IN: Vertices a, b, c
@@ -918,11 +923,11 @@
       [0, 0],
       [0, 1],
       [1, 1],
-      [1, 0]
+      [1, 0],
     ]; // clipping polygon
     var extent = [
       [0, 0],
-      [1, 1]
+      [1, 1],
     ]; // extent of the clipping polygon
     var size = [1, 1]; // [width, height] of the clipping polygon
 
@@ -996,7 +1001,7 @@
       }
       extent = [
         [xExtent[0], yExtent[0]],
-        [xExtent[1], yExtent[1]]
+        [xExtent[1], yExtent[1]],
       ];
       size = [xExtent[1] - xExtent[0], yExtent[1] - yExtent[0]];
       return _weightedVoronoi;
@@ -1007,10 +1012,7 @@
         return extent;
       }
 
-      clip = [_[0],
-        [_[0][0], _[1][1]], _[1],
-        [_[1][0], _[0][1]]
-      ];
+      clip = [_[0], [_[0][0], _[1][1]], _[1], [_[1][0], _[0][1]]];
       extent = _;
       size = [_[1][0] - _[0][0], _[1][1] - _[0][1]];
       return _weightedVoronoi;
@@ -1025,11 +1027,9 @@
         [0, 0],
         [0, _[1]],
         [_[0], _[1]],
-        [_[0], 0]
+        [_[0], 0],
       ];
-      extent = [
-        [0, 0], _
-      ];
+      extent = [[0, 0], _];
       size = _;
       return _weightedVoronoi;
     };
@@ -1091,6 +1091,7 @@
   }
 
   exports.weightedVoronoi = weightedVoronoi;
+  exports.d3WeightedVoronoiError = d3WeightedVoronoiError;
 
   Object.defineProperty(exports, '__esModule', { value: true });
 

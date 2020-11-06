@@ -1,19 +1,8 @@
-import {
-  extent as d3Extent
-} from 'd3-array';
-import {
-  polygonHull as d3PolygonHull
-} from 'd3-polygon';
-import {
-  epsilon,
-  polygonDirection
-} from './utils';
-import {
-  Vertex
-} from './vertex';
-import {
-  computePowerDiagramIntegrated
-} from './powerDiagram';
+import { extent as d3Extent } from 'd3-array';
+import { polygonHull as d3PolygonHull } from 'd3-polygon';
+import { epsilon, polygonDirection } from './utils';
+import { Vertex } from './vertex';
+import { computePowerDiagramIntegrated } from './powerDiagram';
 
 export function weightedVoronoi() {
   /////// Inputs ///////
@@ -30,11 +19,11 @@ export function weightedVoronoi() {
     [0, 0],
     [0, 1],
     [1, 1],
-    [1, 0]
+    [1, 0],
   ]; // clipping polygon
   var extent = [
     [0, 0],
-    [1, 1]
+    [1, 1],
   ]; // extent of the clipping polygon
   var size = [1, 1]; // [width, height] of the clipping polygon
 
@@ -108,7 +97,7 @@ export function weightedVoronoi() {
     }
     extent = [
       [xExtent[0], yExtent[0]],
-      [xExtent[1], yExtent[1]]
+      [xExtent[1], yExtent[1]],
     ];
     size = [xExtent[1] - xExtent[0], yExtent[1] - yExtent[0]];
     return _weightedVoronoi;
@@ -119,10 +108,7 @@ export function weightedVoronoi() {
       return extent;
     }
 
-    clip = [_[0],
-      [_[0][0], _[1][1]], _[1],
-      [_[1][0], _[0][1]]
-    ];
+    clip = [_[0], [_[0][0], _[1][1]], _[1], [_[1][0], _[0][1]]];
     extent = _;
     size = [_[1][0] - _[0][0], _[1][1] - _[0][1]];
     return _weightedVoronoi;
@@ -137,11 +123,9 @@ export function weightedVoronoi() {
       [0, 0],
       [0, _[1]],
       [_[0], _[1]],
-      [_[0], 0]
+      [_[0], 0],
     ];
-    extent = [
-      [0, 0], _
-    ];
+    extent = [[0, 0], _];
     size = _;
     return _weightedVoronoi;
   };
