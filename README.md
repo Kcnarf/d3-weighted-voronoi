@@ -8,7 +8,11 @@ Because a picture is worth a thousand words:
 
 Available only for **d3 v4**, **d3 v5** and **d3 v6**.
 
-this plugin is one of the core features of the [d3-voronoi-map](https://github.com/Kcnarf/d3-voronoi-map) and [d3-voronoi-treemap](https://github.com/Kcnarf/d3-voronoi-treemap) plugins, which computes respectively one-level and multi-level Voronoi-based treemaps.
+This plugin is at the root of:
+
+- the [d3-voronoi-map](https://github.com/Kcnarf/d3-voronoi-map) plugin, which computes a one-level Voronoï-based treemaps
+- the [d3-voronoi-treemap](https://github.com/Kcnarf/d3-voronoi-treemap) plugin, which computes a multi-level Voronoï-based treemaps,
+- the [d3-voronoi-map-tween](https://github.com/Kcnarf/d3-voronoi-map-tween) plugin, which allows animation between two d3-voronoi-map.
 
 ## Context
 
