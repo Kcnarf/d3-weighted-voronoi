@@ -1,7 +1,7 @@
 // convexHull.js
 import { dot, linearDependent } from './utils';
 import { ConflictList, ConflictListNode } from './conflictList';
-import { Vertex } from './Vertex';
+import { Vertex } from './vertex';
 import { Face } from './face';
 import d3WeightedVoronoiError from './d3-weighted-voronoi-error';
 
