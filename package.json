@@ -35,7 +35,7 @@
     "uglify-js": "~>2.6.0"
   },
   "dependencies": {
-    "d3-polygon": "1.*",
-    "d3-array": "1.*"
+    "d3-polygon": "2",
+    "d3-array": "2"
   }
 }

@@ -237,56 +237,6 @@
     return (this.x === v.x && this.y === v.y && this.z === v.z);
   }
 
-  // IN: coordinates x, y, z
-  function Vertex$1 (x, y, z, weight, orig, isDummy) {
-    this.x = x;
-    this.y = y;
-    this.weight = epsilon;
-    this.index = 0;
-    this.conflicts = new ConflictList(false);
-    this.neighbours = null;  // Potential trouble
-    this.nonClippedPolygon = null;
-    this.polygon = null;
-    this.originalObject = null;
-    this.isDummy = false;
-
-    if (orig !== undefined) {
-      this.originalObject = orig;
-    }
-    if (isDummy != undefined) {
-      this.isDummy = isDummy;
-    }
-    if (weight != null) {
-      this.weight = weight;
-    }
-    if (z != null) {
-      this.z = z;
-    } else {
-      this.z = this.projectZ(this.x, this.y, this.weight);
-    }
-  }
-
-  Vertex$1.prototype.projectZ = function(x, y, weight) {
-    return ((x*x) + (y*y) - weight);
-  }
-
-  Vertex$1.prototype.setWeight = function(weight) {
-    this.weight = weight;
-    this.z = this.projectZ(this.x, this.y, this.weight);
-  }
-
-  Vertex$1.prototype.subtract = function(v) {
-    return new Vertex$1(v.x - this.x, v.y - this.y, v.z - this.z);
-  }
-
-  Vertex$1.prototype.crossproduct = function(v) {
-    return new Vertex$1((this.y * v.z) - (this.z * v.y), (this.z * v.x) - (this.x * v.z), (this.x * v.y) - (this.y * v.x));
-  }
-
-  Vertex$1.prototype.equals = function(v) {
-    return (this.x === v.x && this.y === v.y && this.z === v.z);
-  }
-
   // Plane3D and Point2D
 
   // IN: Face face
@@ -510,7 +460,7 @@
   ConvexHull.prototype.init = function (boundingSites, sites) {
     this.points = [];
     for (var i = 0; i < sites.length; i++) {
-      this.points[i] = new Vertex$1(sites[i].x, sites[i].y, sites[i].z, null, sites[i], false);
+      this.points[i] = new Vertex(sites[i].x, sites[i].y, sites[i].z, null, sites[i], false);
     }
     this.points = this.points.concat(boundingSites);
   };
