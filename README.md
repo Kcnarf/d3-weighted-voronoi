@@ -37,7 +37,7 @@ If you use NPM, `npm install d3-weighted-voronoi`. Otherwise, load `https://rawc
 
 ```html
 <script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.1.1s/build/d3-weighted-voronoi.js"></script>
+<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.1.1/build/d3-weighted-voronoi.js"></script>
 <script>
   var weightedVoronoi = d3.weightedVoronoi();
 </script>
@@ -168,17 +168,4 @@ If _size_ is specified, it is a convenient way to define the clipping polygon as
 
 ## Semantic Versioning
 
-d3-wieghted-voronoi attempts to follow [semantic versioning](https://semver.org) and
-bump major version only when backwards incompatible changes are released.
-
-## Testing
-
-In order to test the code
-
-```sh
-git clone https://github.com/Kcnarf/d3-weighted-voronoi.git
-[...]
-yarn install
-[...]
-yarn test
-```
+d3-weighted-voronoi attempts to follow [semantic versioning](https://semver.org) and bump major version only when backwards incompatible changes are released.
