@@ -33,11 +33,11 @@ These situations arise when some sites are overweighted by others. You can exper
 
 ## Installing
 
-If you use NPM, `npm install d3-weighted-voronoi`. Otherwise, load `https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.1.0/build/d3-weighted-voronoi.js` (or its `d3-weighted-voronoi.min.js` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
+If you use NPM, `npm install d3-weighted-voronoi`. Otherwise, load `https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.1.1/build/d3-weighted-voronoi.js` (or its `d3-weighted-voronoi.min.js` version) to make it available in AMD, CommonJS, or vanilla environments. In vanilla, a d3 global is exported:
 
 ```html
 <script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.1.0/build/d3-weighted-voronoi.js"></script>
+<script src="https://rawcdn.githack.com/Kcnarf/d3-weighted-voronoi/v1.1.1s/build/d3-weighted-voronoi.js"></script>
 <script>
   var weightedVoronoi = d3.weightedVoronoi();
 </script>
