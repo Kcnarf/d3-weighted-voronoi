@@ -219,11 +219,15 @@ tape.test('Package should provide d3WeightedVoronoiError', function (test) {
 
 tape('weightedVoronoi(...) should not hang in an infinite loop', function (test) {
   var weightedVoronoi = d3WeightedVoronoi.weightedVoronoi();
-  weightedVoronoi([
-    {x:0.3, y: -1, weight: 1},
-    {x:-0.3, y: -1, weight: 1},
-    {x:0.3, y: -0.8999999999999999, weight: 1},
-    {x:-0.3, y: -0.8999999999999999,weight:  1}
-  ]);
+  try {
+    weightedVoronoi([
+      {x:0.3, y: -1, weight: 1},
+      {x:-0.3, y: -1, weight: 1},
+      {x:0.3, y: -0.8999999999999999, weight: 1},
+      {x:-0.3, y: -0.8999999999999999,weight:  1}
+    ]);
+  } catch (error) {
+    // Ignore.
+  }
   test.end();
 });

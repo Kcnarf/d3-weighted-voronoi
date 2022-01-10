@@ -181,7 +181,15 @@ ConvexHull.prototype.addFacet = function (face) {
 
 ConvexHull.prototype.compute = function () {
   this.prep();
+
+  const maxIterations = this.points.length;
+  let currentIteration = 0;
   while (this.current < this.points.length) {
+    if(currentIteration > maxIterations) {
+      throw new d3WeightedVoronoiError("Hung in ConvexHull.prototype.compute.");
+    }
+    ++currentIteration;
+
     var next = this.points[this.current];
     if (next.conflicts.isEmpty()) {
       // No conflict, point in hull
