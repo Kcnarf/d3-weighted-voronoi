@@ -492,6 +492,7 @@
     v1 = this.points[1];
     v2 = v3 = null;
 
+    // Searching for a third vertex, not aligned with the 2 firsts
     for (var i = 2; i < this.points.length; i++) {
       if (!(linearDependent(v0, this.points[i]) && linearDependent(v1, this.points[i]))) {
         v2 = this.points[i];
@@ -503,12 +504,14 @@
       }
     }
     if (v2 === null) {
-      throw new d3WeightedVoronoiError('v2 is null');
+      throw new d3WeightedVoronoiError('Not enough non-planar Points (v2 is null)');
     }
 
+    // Create first JFace
     f0 = new Face(v0, v1, v2);
+    // Searching for a fourth vertex, not coplanar to the 3 firsts
     for (var i = 3; i < this.points.length; i++) {
-      if (dot(f0.normal, f0.verts[0]) !== dot(f0.normal, this.points[i])) {
+      if (!epsilonesque(dot(f0.normal, f0.verts[0]) - dot(f0.normal, this.points[i]))) {
         v3 = this.points[i];
         v3.index = 3;
         this.points[3].index = i;
@@ -518,7 +521,7 @@
       }
     }
     if (v3 === null) {
-      throw new d3WeightedVoronoiError('v3 is null');
+      throw new d3WeightedVoronoiError('Not enough non-planar Points (v3 is null)');
     }
 
     f0.orient(v3);
