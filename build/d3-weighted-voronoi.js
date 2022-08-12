@@ -31,7 +31,7 @@
   // OUT: true if the set defines a convex polygon (non-intersecting, hole-free, non-concave)
   // from https://gist.github.com/annatomka/82715127b74473859054, adapted to [x,y] syntax (instead of {x: ..., y: ...}) and optimizations
   function polygonDirection(polygon) {
-    var direction, sign, crossproduct, p0, p1, p2, v0, v1, i;
+    var sign, crossproduct, p0, p1, p2, v0, v1, i;
 
     //begin: initialization
     p0 = polygon[polygon.length - 2];
